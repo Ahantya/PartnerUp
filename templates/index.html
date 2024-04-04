@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partners</title>
+    <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto px-4 py-8">
+
+        <h1 class="text-3xl font-bold mb-4">Partners</h1>
+        
+        <form action="/search" method="POST" class="mb-6">
+            <div class="flex items-center">
+                <input type="text" name="search" placeholder="Search..." class="border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex-grow">
+                <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
+            </div>
+        </form>
+        
+        <table class="w-full bg-white border border-gray-200">
+            <thead>
+                <tr>
+                    <th class="border border-gray-200 px-4 py-2">Name</th>
+                    <th class="border border-gray-200 px-4 py-2">Type</th>
+                    <th class="border border-gray-200 px-4 py-2">Resources</th>
+                    <th class="border border-gray-200 px-4 py-2">Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for partner in partners %}
+                <tr>
+                    <td class="border border-gray-200 px-4 py-2">{{ partner['name'] }}</td>
+                    <td class="border border-gray-200 px-4 py-2">{{ partner['type'] }}</td>
+                    <td class="border border-gray-200 px-4 py-2">{{ partner['resources'] }}</td>
+                    <td class="border border-gray-200 px-4 py-2">{{ partner['contact'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
+
+</body>
+</html>
