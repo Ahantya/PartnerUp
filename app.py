@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from flask_talisman import Talisman
 
@@ -138,6 +138,14 @@ def edit(partner_id):
     if 'user' not in session or session['user'] != 'admin':
         return redirect(url_for('login'))
 
+    conn = get_db_connection()
+    partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
+
+    if partner is None:
+        flash('Partner not found', 'error')
+        conn.close()
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
         # Retrieve updated details from the form
         name = request.form['name']
@@ -145,7 +153,6 @@ def edit(partner_id):
         resources = request.form['resources']
         contact = request.form['contact']
 
-        conn = get_db_connection()
         # Update partner details in the database
         conn.execute(
             'UPDATE partners SET name = ?, type = ?, resources = ?, contact = ? WHERE id = ?',
@@ -155,6 +162,10 @@ def edit(partner_id):
         conn.close()
 
         return redirect(url_for('index'))
+
+    conn.close()
+
+    return render_template('edit.html', partner=partner)
 
     # Retrieve current partner details from the database
     conn = get_db_connection()
