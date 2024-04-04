@@ -125,11 +125,23 @@ def delete(partner_id):
         return redirect(url_for('login'))
 
     conn = get_db_connection()
+
+    # Delete the partner with the specified id
     conn.execute('DELETE FROM partners WHERE id = ?', (partner_id,))
+    conn.commit()
+
+    # Retrieve all remaining partners after deletion
+    remaining_partners = conn.execute('SELECT * FROM partners').fetchall()
+
+    # Reorder the ids starting from 1
+    for index, partner in enumerate(remaining_partners, start=1):
+        conn.execute('UPDATE partners SET id = ? WHERE id = ?', (index, partner['id']))
+
     conn.commit()
     conn.close()
 
     return redirect(url_for('index'))
+
 
 @app.route('/edit/<int:partner_id>', methods=['GET', 'POST'])
 def edit(partner_id):
