@@ -27,6 +27,7 @@
                     <th class="border border-gray-200 px-4 py-2">Type</th>
                     <th class="border border-gray-200 px-4 py-2">Resources</th>
                     <th class="border border-gray-200 px-4 py-2">Contact</th>
+                    <th class="border border-gray-200 px-4 py-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -36,12 +37,61 @@
                     <td class="border border-gray-200 px-4 py-2">{{ partner['type'] }}</td>
                     <td class="border border-gray-200 px-4 py-2">{{ partner['resources'] }}</td>
                     <td class="border border-gray-200 px-4 py-2">{{ partner['contact'] }}</td>
+                    <td class="border border-gray-200 px-4 py-2">
+                        <div class="whoknows" id="yuppers" >
+                            {% if not check_if_user_is_admin() %}
+                            <div class="flex mx-auto items-center"> None </div>
+                            {% endif %}
+                            {% if check_if_user_is_admin() %}
+                            <a href="/edit/{{ partner['id'] }}" id="editcustom">Edit</a>
+                            {% endif %}
+                            {% if check_if_user_is_admin() %}
+                            <form action="/delete/{{ partner['id'] }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this partner?')" style="display: inline;">
+                                <button type="submit" id="deletecustom">Delete</button>
+                            </form>
+                            {% endif %}
+                            {% if check_if_user_is_admin() %}
+                            <button class="edit-btn" data-id="{{ partner['id'] }}">Direct Edit</button>
+                            {% endif %}
+
+                        </div>
+                    </td>
+                </tr>
+                <tr id="edit-{{ partner['id'] }}" class="edit-content">
+                        <form id="edit-form-{{ partner['id'] }}" action="/edit/{{ partner['id'] }}" method="POST" class="flex flex-wrap items-center">
+                            <td class="border border-gray-200 px-4 py-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Edit Name:</label>
+                                <input type="text" id="name" name="name" value="{{ partner['name'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                             </td>
+                            <td class="border border-gray-200 px-4 py-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="type">Edit Type:</label>
+                                <input type="text" id="type" name="type" value="{{ partner['type'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </td>
+                            <td class="border border-gray-200 px-4 py-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="resources">Edit Resources:</label>
+                                <textarea id="resources" name="resources" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ partner['resources'] }}</textarea>
+                            </td>
+                            <td class="border border-gray-200 px-4 py-2">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Edit Contact:</label>
+                                <input type="text" id="contact" name="contact" value="{{ partner['contact'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            </td>
+                            <td class="border border-gray-200 px-4 py-2">
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save Changes</button>
+                                <button id= "bro" class="cancel-btn inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 ml-2">Cancel</button>
+                            </td>
+                        </form>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     
     </div>
+
+    <script src="static/script.js"></script>
+
+
+
+    
 
 </body>
 </html>
