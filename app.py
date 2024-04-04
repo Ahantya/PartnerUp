@@ -56,8 +56,6 @@ def logout():
     return redirect(url_for('login'))
 
 # Home route - Displays all partners
-# Home route - Displays all partners
-# Home route - Displays all partners
 @app.route('/index')
 def index():
     if 'user' not in session:

@@ -319,6 +319,18 @@
 
 }
 
+.edit-btn:hover {
+  background-color: #FF8C00; 
+}
+
+.edit-btn:focus {
+  outline: none;
+  background-color: #FF8C00; 
+
+}
+
+
+
 .edit-content{
   display: none;
 }
