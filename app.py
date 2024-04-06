@@ -186,7 +186,6 @@ def edit(partner_id):
 
 # Function to check if the user is an admin (simulated)
 def check_if_user_is_admin():
-    # For demo purposes, we'll check if the user session is 'admin'
     return session['user'] != 'student'
 
 if __name__ == '__main__':
