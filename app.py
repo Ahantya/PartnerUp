@@ -29,6 +29,10 @@ def create_table():
 
 # Create the 'partners' table when the app starts
 create_table()
+users = {
+    'admin': 'LASAdmin90@',
+    'student': 'LAStudent90@'
+}
 
 # Login route - Displays login form
 @app.route('/', methods=['GET', 'POST'])
@@ -37,15 +41,13 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # For demo purposes, hardcoded username and password
-        if username == 'admin' and password == 'admin':
-            session['user'] = 'admin'
+        # Check if username and password match
+        if username in users and users[username] == password:
+            session['user'] = username
             return redirect(url_for('index'))
-        elif username == 'student' and password == 'student':
-            session['user'] = 'student'
-            return redirect(url_for('index'))
-
-        return render_template('login.html', error='Invalid credentials')
+        
+        flash('Invalid username or password', 'error')
+        return render_template('login.html')
 
     return render_template('login.html')
 
