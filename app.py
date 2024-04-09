@@ -209,7 +209,7 @@ def undo_deleted_partners():
         conn = get_db_connection()
         for partner in deleted_partners:
             conn.execute(
-                'INSERT INTO partners (name, type, resources, contact) VALUES (?, ?, ?, ?, ?)',
+                'INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)',
                 (partner['name'], partner['type'], partner['resources'], partner['email'], partner['number'])
             )
         conn.commit()
