@@ -65,6 +65,24 @@
   2. Inherit line-height from `html` so users can set them as a class directly on the `html` element.
   */
 
+/* Header styles*/
+
+.header {
+  padding: 10px 16px;
+  background: #555;
+  color: #f1f1f1;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+
 /* Navbar styles */
 nav {
     background-color: #333;
