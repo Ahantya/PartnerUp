@@ -21,7 +21,8 @@ def create_table():
             name TEXT NOT NULL,
             type TEXT NOT NULL,
             resources TEXT,
-            contact TEXT NOT NULL
+            email TEXT NOT NULL,
+            number TEXT NOT NULL     
         )
     ''')
     conn.commit()
@@ -105,12 +106,13 @@ def add():
         name = request.form['name']
         partner_type = request.form['type']
         resources = request.form['resources']
-        contact = request.form['contact']
+        email = request.form['email']
+        number = request.form['number']
 
         conn = get_db_connection()
         conn.execute(
-            'INSERT INTO partners (name, type, resources, contact) VALUES (?, ?, ?, ?)',
-            (name, partner_type, resources, contact)
+            'INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)',
+            (name, partner_type, resources, email, number)
         )
         conn.commit()
         conn.close()
@@ -162,12 +164,13 @@ def edit(partner_id):
         name = request.form['name']
         partner_type = request.form['type']
         resources = request.form['resources']
-        contact = request.form['contact']
+        email = request.form['email']
+        number = request.form['number']
 
         # Update partner details in the database
         conn.execute(
-            'UPDATE partners SET name = ?, type = ?, resources = ?, contact = ? WHERE id = ?',
-            (name, partner_type, resources, contact, partner_id)
+            'UPDATE partners SET name = ?, type = ?, resources = ?, email = ?, number = ? WHERE id = ?',
+            (name, partner_type, resources, email, number, partner_id)
         )
         conn.commit()
         conn.close()
@@ -189,7 +192,7 @@ def delete_all():
     partners_to_delete = conn.execute('SELECT * FROM partners').fetchall()
 
     # Save the partners to be deleted in the session
-    session['deleted_partners'] = [{ 'name': partner['name'], 'type': partner['type'], 'resources': partner['resources'], 'contact': partner['contact'] } for partner in partners_to_delete]
+    session['deleted_partners'] = [{ 'name': partner['name'], 'type': partner['type'], 'resources': partner['resources'], 'email': partner['email'], 'number': partner['number'] } for partner in partners_to_delete]
 
     # Delete all partners from the table
     conn.execute('DELETE FROM partners')
@@ -206,8 +209,8 @@ def undo_deleted_partners():
         conn = get_db_connection()
         for partner in deleted_partners:
             conn.execute(
-                'INSERT INTO partners (name, type, resources, contact) VALUES (?, ?, ?, ?)',
-                (partner['name'], partner['type'], partner['resources'], partner['contact'])
+                'INSERT INTO partners (name, type, resources, contact) VALUES (?, ?, ?, ?, ?)',
+                (partner['name'], partner['type'], partner['resources'], partner['email'], partner['number'])
             )
         conn.commit()
         conn.close()
@@ -221,8 +224,27 @@ def undo():
 
     return redirect(url_for('index'))
 
+# @app.route('/upload', methods=['POST'])
+# def upload_file():
+#     if 'file' not in request.files:
+#         return 'No file part'
+    
+#     file = request.files['file']
+    
+#     if file.filename == '':
+#         return 'No selected file'
+    
+#     if file:
+#         # Assuming you have a function to process the CSV and add data to the database
+#         process_csv(file)
+#         return 'File uploaded successfully'
+#     else:
+#         return 'Error uploading file'
 
-
+# def process_csv(file):
+#     # Implement your CSV processing logic here
+#     # Example: Read the CSV file and add data to the database
+#     pass
 
 # Function to check if the user is an admin (simulated)
 def check_if_user_is_admin():
