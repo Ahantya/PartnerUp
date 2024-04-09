@@ -414,7 +414,7 @@ h1, p {
   background-color: #333;
   overflow: hidden;
   display: flex;
-  justify-content: center; /* Center horizontally */
+  justify-content: center; 
 }
 
 #nav-bar ul {
