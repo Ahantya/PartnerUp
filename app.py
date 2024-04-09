@@ -177,13 +177,24 @@ def edit(partner_id):
     conn.close()
 
     return render_template('edit.html', partner=partner)
+# Delete all partners route - Deletes all partners from the database
 
-    # Retrieve current partner details from the database
+@app.route('/delete_all', methods=['POST'])
+def delete_all():
+    if 'user' not in session or session['user'] != 'admin':
+        return redirect(url_for('login'))
+
     conn = get_db_connection()
-    partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
+
+    # Delete all partners from the table
+    conn.execute('DELETE FROM partners')
+    conn.commit()
+
     conn.close()
 
-    return render_template('edit.html', partner=partner)
+    return redirect(url_for('index'))
+
+
 
 # Function to check if the user is an admin (simulated)
 def check_if_user_is_admin():

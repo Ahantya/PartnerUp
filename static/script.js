@@ -43,3 +43,18 @@ editBtns.forEach(function(btn) {
 function updateDisplay() {
     console.log("Updating display");
 }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteAllLink = document.getElementById("deleteAllLink");
+    deleteAllLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        if (confirm("Are you sure you want to delete all partners?")) {
+            const form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/delete_all";
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+});
