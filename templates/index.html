@@ -9,12 +9,12 @@
 </head>
 <body class="bg-gray-100">
     
-    <nav>
+    <nav id="ok">
         <ul>
             <li><a href="/index">Home</a></li>       
             {% if check_if_user_is_admin() %}
-                <li><a href="/add">Add</a></li>
-                <li><a href="#" id="deleteAllLink">Delete All</a></li>
+                <li><a href="/add">Add Partner</a></li>
+                <li><a href="#" id="deleteAllLink">Delete All Partners</a></li>
                 <li><a href="/undo" id="undoLink">Undo Delete All</a></li>
             {% endif %}
             <li class="logout"><a href="/">Logout</a></li>

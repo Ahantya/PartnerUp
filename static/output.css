@@ -387,6 +387,10 @@ h1, p {
   background-color: #FF8C00; 
 }
 
+
+#ok {
+  
+}
 .edit-btn:focus {
   outline: none;
   background-color: #FF8C00; 
