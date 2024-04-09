@@ -178,13 +178,18 @@ def edit(partner_id):
 
     return render_template('edit.html', partner=partner)
 # Delete all partners route - Deletes all partners from the database
-
 @app.route('/delete_all', methods=['POST'])
 def delete_all():
     if 'user' not in session or session['user'] != 'admin':
         return redirect(url_for('login'))
 
     conn = get_db_connection()
+
+    # Retrieve all partners to be deleted
+    partners_to_delete = conn.execute('SELECT * FROM partners').fetchall()
+
+    # Save the partners to be deleted in the session
+    session['deleted_partners'] = [{ 'name': partner['name'], 'type': partner['type'], 'resources': partner['resources'], 'contact': partner['contact'] } for partner in partners_to_delete]
 
     # Delete all partners from the table
     conn.execute('DELETE FROM partners')
@@ -193,6 +198,29 @@ def delete_all():
     conn.close()
 
     return redirect(url_for('index'))
+
+
+def undo_deleted_partners():
+    deleted_partners = session.pop('deleted_partners', None)
+    if deleted_partners:
+        conn = get_db_connection()
+        for partner in deleted_partners:
+            conn.execute(
+                'INSERT INTO partners (name, type, resources, contact) VALUES (?, ?, ?, ?)',
+                (partner['name'], partner['type'], partner['resources'], partner['contact'])
+            )
+        conn.commit()
+        conn.close()
+
+@app.route('/undo', methods=['GET'])
+def undo():
+    if 'user' not in session or session['user'] != 'admin':
+        return redirect(url_for('login'))
+
+    undo_deleted_partners()
+
+    return redirect(url_for('index'))
+
 
 
 
