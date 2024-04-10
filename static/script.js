@@ -58,28 +58,3 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
-
-
-document.addEventListener("DOMContentLoaded", function() {
-    console.log("DOMContentLoaded event fired");
-    const uploadForm = document.querySelector("form[action='/upload']");
-    if(uploadForm) {
-        uploadForm.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const formData = new FormData(this);
-            const xhr = new XMLHttpRequest();
-
-            xhr.open("POST", this.action, true);
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    alert("File uploaded successfully");
-                } else {
-                    alert("File uploaded unsuccessfully");
-                }
-            };
-
-            xhr.send(formData);
-        });
-    }
-});
