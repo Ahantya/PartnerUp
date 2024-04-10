@@ -105,7 +105,10 @@ def add():
     # if 'user' not in session or session['user'] != 'admin':
     #     return redirect(url_for('login'))
 
+    
+
     if request.method == 'POST':
+        print(request.form['category'])
         category = request.form['category']
         name = request.form['name']
         description = request.form['description']
@@ -170,12 +173,12 @@ def edit(partner_id):
 
     if request.method == 'POST':
         # Retrieve updated details from the form
-        category = request.form['category']
+        category = request.form['Category']
         name = request.form['name']
-        description = request.form['type']
-        size = request.form['resources']
+        description = request.form['description']
+        size = request.form['size']
         address = request.form['address']
-        phone = request.form['email']
+        phone = request.form['phone']
         website = request.form['website']
 
         # Update partner details in the database
