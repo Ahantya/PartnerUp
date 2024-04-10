@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Partner</title>
     <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet"> -->
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
@@ -46,15 +46,16 @@
                 </div>
             </form>
         </div>
-        <div class="add_section-container">
+        <div class="add_section-container mx-auto px-4 py-4">
             <h1 class="text-3xl font-bold mb-4">Upload CSV File</h1>
             <form action="/upload" method="post" class="max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" enctype="multipart/form-data">
                 <input type="file" name="file" accept=".csv">
                 <button type="submit" class="upload-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Upload</button>
             </form>
 
+            
             {% if error_message %}
-            <div class="alert alert-danger custom-alert alert-dismissible fade show" role="alert">
+            <div id="error-alert" class="custom-alert" role="alert">
                 <strong>{{ error_message }}</strong>
             </div>
             {% endif %}

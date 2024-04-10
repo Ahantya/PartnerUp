@@ -338,6 +338,7 @@ h1, p {
     border-radius: 0.5rem;
   }
   
+  
   #deletecustom:hover {
     background-color: #DC2626; 
   }
@@ -885,9 +886,38 @@ h1, p {
   }
 
 
-  .custom-alert {
-    max-width: 900px; /* Set your desired width */
-    width: 73.7%; /* If you want it to take 90% of the container */
+    .custom-alert {
+      max-width: 900px; /* Set your desired width */
+      width: 74.5%; /* If you want it to take 90% of the container */
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+      position: relative;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
+    }
+    
+    .custom-alert.alert-danger {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+    
+    .custom-alert.alert-dismissible {
+      padding-right: 4rem;
+    }
+    
+    .custom-alert.fade {
+      opacity: 0;
+      transition: opacity 0.15s linear;
+    }
+    
+    .custom-alert.show {
+      opacity: 1;
+    }
+    
     
 }
   .inline-block {
