@@ -474,8 +474,8 @@ h1, p {
 }
 
 #navforlogin {
-  padding: 11px; 
-  background-color: #3B82F6
+  padding: 3.3px; 
+  /* background-color: #3B82F6 */
 }
 
 
@@ -484,7 +484,7 @@ h1, p {
   color: white;
   padding: 14px 20px;
   text-decoration: none;
-  font-size: 30px;
+  font-size: 40px;
   text-align: center;
   font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   
