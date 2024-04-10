@@ -403,7 +403,7 @@ h1, p {
 
 /* Change icon color to blue on hover */
 #nav-bar ul li a:hover i {
-  color: rgb(37 99 235)
+  color: #3B82F6
 }
 
 #nav-bar ul li {
@@ -423,6 +423,7 @@ h1, p {
   padding: 0;
   text-align: center;
 }
+
 
 
 #nav-bar ul li a {
@@ -469,6 +470,23 @@ h1, p {
   outline: none;
   background-color: #FF8C00; 
 
+}
+
+#navforlogin {
+  padding: 20px; /* Add padding to the nav-bar */
+  background-color: #3B82F6
+}
+
+
+#navforlogin ul {
+  display: block;
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 40px;
+  text-align: center;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  
 }
 
 
