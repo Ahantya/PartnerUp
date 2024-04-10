@@ -8,9 +8,6 @@
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
-
-
-
 </head>
 <body class="bg-gray-100">
 
@@ -19,9 +16,11 @@
         <ul>
             <li><a href="/index"><i class="fas fa-home"></i> Home</a></li>
             {% if check_if_user_is_admin() %}
-                <li><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
-                <li><a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a></li>
-                <li><a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a></li>
+            <ul class="flex items-center" id="bruh">
+                <li class="flex items-center"><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
+                <li class="flex items-center"><a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a></li>
+                <li class="flex items-center"><a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a></li>
+            </ul>
             {% endif %}
             <li class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>

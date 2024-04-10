@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="style-src 'self' https://cdnjs.cloudflare.com">
+        <title>About</title>
+        <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    </head>
+    <body class="bg-gray-100">
+        <nav id="nav-bar">
+            <ul>
+                <li><a href="/index"><i class="fas fa-home"></i> Home</a></li>
+                {% if check_if_user_is_admin() %}
+                    <li><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
+                    <li><a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a></li>
+                    <li><a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a></li>
+                {% endif %}
+                <li class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+        <div class="container mx-auto px-4 py-8">
+            <h1 class="text-3xl font-bold mb-4">PartnerUp</h1>
+            
+        </div>
+    </body>
+
+</html>    

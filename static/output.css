@@ -451,66 +451,19 @@ h1, p {
   color: #3B82F6
 }
 
-#nav-bar ul li {
-  display: inline;
-}
-
-#nav-bar {
-  background-color: #333;
-  overflow: hidden;
-  display: flex;
-  justify-content: center; 
-}
-
-#nav-bar ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-}
-
 
 
 #nav-bar ul li a {
-  display: block;
-  color: white;
-  padding: 14px 20px;
-  text-decoration: none;
-  font-size: 18px;
+    text-decoration: none; /* Remove underline by default */
 }
 
+
+
+
 #nav-bar ul li a:hover {
-  background-color: #555;
   border-radius: 8px; 
 }
 
-#nav-bar ul li.logout {
-  float: right;
-}
-
-#nav-bar ul li.logout a {
-  float: right;
-}
-
-@media screen and (max-width: 600px) {
-  #nav-bar ul {
-      display: flex;
-      flex-direction: column;
-  }
-
-  #nav-bar ul li {
-      display: block;
-      margin-bottom: 10px;
-  }
-
-  #nav-bar ul li.logout {
-      float: none;
-  }
-
-  #nav-bar ul li.logout a {
-      float: none;
-  }
-}
 
 .edit-btn:focus {
   outline: none;
