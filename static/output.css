@@ -437,6 +437,7 @@ h1, p {
 
 #nav-bar ul li a:hover {
   background-color: #555;
+  border-radius: 8px; 
 }
 
 #nav-bar ul li.logout {
