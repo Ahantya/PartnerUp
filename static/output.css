@@ -327,38 +327,6 @@ h1, p {
     /* 2 */
   }
 
- .custom-alert {
-      max-width: 900px; /* Set your desired width */
-      width: 74.5%; /* If you want it to take 90% of the container */
-      color: #721c24;
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
-      position: relative;
-      padding: 0.75rem 1.25rem;
-      margin-bottom: 1rem;
-      border: 1px solid transparent;
-      border-radius: 0.25rem;
-    }
-
-    .custom-alert.alert-danger {
-      color: #721c24;
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
-    }
-
-    .custom-alert.alert-dismissible {
-      padding-right: 4rem;
-    }
-
-    .custom-alert.fade {
-      opacity: 0;
-      transition: opacity 0.15s linear;
-    }
-
-    .custom-alert.show {
-      opacity: 1;
-    }
-
   #deletecustom {
     margin-left: 0.5rem;
     padding-left: 1rem;
@@ -369,6 +337,7 @@ h1, p {
     color: #FFFFFF;
     border-radius: 0.5rem;
   }
+  
   
   #deletecustom:hover {
     background-color: #DC2626; 
@@ -394,6 +363,10 @@ h1, p {
 
 .whoknows {
   text-shadow: none;
+}
+
+#ok {
+  text-align: center;
 }
 
 #yuppers {
@@ -451,19 +424,66 @@ h1, p {
   color: #3B82F6
 }
 
+#nav-bar ul li {
+  display: inline;
+}
+
+#nav-bar {
+  background-color: #333;
+  overflow: hidden;
+  display: flex;
+  justify-content: center; 
+}
+
+#nav-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
 
 
 #nav-bar ul li a {
-    text-decoration: none; /* Remove underline by default */
+  display: block;
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-
-
-
 #nav-bar ul li a:hover {
+  background-color: #555;
   border-radius: 8px; 
 }
 
+#nav-bar ul li.logout {
+  float: right;
+}
+
+#nav-bar ul li.logout a {
+  float: right;
+}
+
+@media screen and (max-width: 600px) {
+  #nav-bar ul {
+      display: flex;
+      flex-direction: column;
+  }
+
+  #nav-bar ul li {
+      display: block;
+      margin-bottom: 10px;
+  }
+
+  #nav-bar ul li.logout {
+      float: none;
+  }
+
+  #nav-bar ul li.logout a {
+      float: none;
+  }
+}
 
 .edit-btn:focus {
   outline: none;
@@ -863,10 +883,47 @@ h1, p {
     margin-left: 0.5rem;
   }
 
+
+
   .block {
     display: block;
   }
 
+
+    .custom-alert {
+      max-width: 900px; /* Set your desired width */
+      width: 74.7%; /* If you want it to take 90% of the container */
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+      position: relative;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
+    }
+    
+    .custom-alert.alert-danger {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+    
+    .custom-alert.alert-dismissible {
+      padding-right: 4rem;
+    }
+    
+    .custom-alert.fade {
+      opacity: 0;
+      transition: opacity 0.15s linear;
+    }
+    
+    .custom-alert.show {
+      opacity: 1;
+    }
+    
+    
+}
   .inline-block {
     display: inline-block;
   }

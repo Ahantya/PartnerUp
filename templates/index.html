@@ -11,13 +11,11 @@
 </head>
 <body class="bg-gray-100">
 
-
     <nav id="nav-bar">
         <ul>
             <li><a href="/index"><i class="fas fa-home"></i> Home</a></li>
             {% if check_if_user_is_admin() %}
-            <ul class="flex items-center" id="bruh">
-                <li class="flex items-center"><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
+            <ul id="bruh">  <li class="flex items-center"><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
                 <li class="flex items-center"><a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a></li>
                 <li class="flex items-center"><a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a></li>
             </ul>
@@ -48,11 +46,11 @@
         <table class="w-full bg-white border border-gray-200">
             <thead>
                 <tr>
-                    <th class="border border-gray-200 px-4 py-2">No.</th> 
-                    <th class="border border-gray-200 px-4 py-2">Category</th>
-                    <th class="border border-gray-200 px-4 py-2">Name</th>
-                    <th class="border border-gray-200 px-4 py-2">Website</th>
-                    <th class="border border-gray-200 px-4 py-2">Actions</th>
+                    <th id="ok" class="border border-gray-200 px-4 py-2">No.</th> 
+                    <th id="ok" class="border border-gray-200 px-4 py-2">Category</th>
+                    <th id="ok" class="border border-gray-200 px-4 py-2">Name</th>
+                    <th id="ok" class="border border-gray-200 px-4 py-2">Website</th>
+                    <th id="ok" class="border border-gray-200 px-4 py-2">Actions</th>
                 </tr>
             </thead>
             <tbody>
