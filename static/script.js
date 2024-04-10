@@ -76,14 +76,12 @@ setTimeout(function() {
 }, 4000); 
 
 
-document.addEventListener("DOMContentLoaded", function() {
-    setTimeout(function() {
+setTimeout(function() {
         var errorAlert = document.getElementById('error-alert');
         if (errorAlert) {
             errorAlert.style.display = 'none';
         }
     }, 4000);
-});
 
 
 

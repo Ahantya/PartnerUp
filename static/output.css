@@ -73,6 +73,16 @@
   color: #f1f1f1;
 }
 
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+.sticky + .content {
+  padding-top: 102px;
+}
+
 /* Navbar styles */
 nav {
     background-color: #333;
@@ -91,7 +101,7 @@ nav ul li {
 }
 
 .logout {
-    float: right;
+    margin-left: auto;
 }
 
 nav ul li a {
@@ -108,14 +118,6 @@ nav ul li a:hover {
 }
 
 /* Content container */
-.display-container {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
 .container {
     max-width: 800px;
     margin: 20px auto;
@@ -325,6 +327,38 @@ h1, p {
     /* 2 */
   }
 
+ .custom-alert {
+      max-width: 900px; /* Set your desired width */
+      width: 74.5%; /* If you want it to take 90% of the container */
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+      position: relative;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1rem;
+      border: 1px solid transparent;
+      border-radius: 0.25rem;
+    }
+
+    .custom-alert.alert-danger {
+      color: #721c24;
+      background-color: #f8d7da;
+      border-color: #f5c6cb;
+    }
+
+    .custom-alert.alert-dismissible {
+      padding-right: 4rem;
+    }
+
+    .custom-alert.fade {
+      opacity: 0;
+      transition: opacity 0.15s linear;
+    }
+
+    .custom-alert.show {
+      opacity: 1;
+    }
+
   #deletecustom {
     margin-left: 0.5rem;
     padding-left: 1rem;
@@ -335,7 +369,6 @@ h1, p {
     color: #FFFFFF;
     border-radius: 0.5rem;
   }
-  
   
   #deletecustom:hover {
     background-color: #DC2626; 
@@ -486,7 +519,7 @@ h1, p {
 }
 
 #navforlogin {
-  padding: 1.3px; 
+  padding: 3.3px; 
   /* background-color: #3B82F6 */
 }
 
@@ -877,47 +910,10 @@ h1, p {
     margin-left: 0.5rem;
   }
 
-
-
   .block {
     display: block;
   }
 
-
-    .custom-alert {
-      max-width: 900px; /* Set your desired width */
-      width: 74.5%; /* If you want it to take 90% of the container */
-      color: #721c24;
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
-      position: relative;
-      padding: 0.75rem 1.25rem;
-      margin-bottom: 1rem;
-      border: 1px solid transparent;
-      border-radius: 0.25rem;
-    }
-    
-    .custom-alert.alert-danger {
-      color: #721c24;
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
-    }
-    
-    .custom-alert.alert-dismissible {
-      padding-right: 4rem;
-    }
-    
-    .custom-alert.fade {
-      opacity: 0;
-      transition: opacity 0.15s linear;
-    }
-    
-    .custom-alert.show {
-      opacity: 1;
-    }
-    
-    
-}
   .inline-block {
     display: inline-block;
   }
