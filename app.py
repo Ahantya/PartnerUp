@@ -19,11 +19,13 @@ def create_table():
     conn.execute('''
         CREATE TABLE IF NOT EXISTS partners (
             id INTEGER PRIMARY KEY,
+            category TEXT NOT NULL,
             name TEXT NOT NULL,
-            type TEXT NOT NULL,
-            resources TEXT,
-            email TEXT NOT NULL,
-            number TEXT NOT NULL     
+            description TEXT NOT NULL,
+            size TEXT NOT NULL,
+            address TEXT,
+            phone TEXT,
+            website TEXT
         )
     ''')
     conn.commit()
@@ -100,20 +102,22 @@ def search():
 # Add partner route - Displays form to add a new partner (only for admin)
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    if 'user' not in session or session['user'] != 'admin':
-        return redirect(url_for('login'))
+    # if 'user' not in session or session['user'] != 'admin':
+    #     return redirect(url_for('login'))
 
     if request.method == 'POST':
+        category = request.form['category']
         name = request.form['name']
-        partner_type = request.form['type']
-        resources = request.form['resources']
-        email = request.form['email']
-        number = request.form['number']
+        description = request.form['description']
+        size = request.form['size']
+        address = request.form['address']
+        phone = request.form['phone']
+        website = request.form['website']
 
         conn = get_db_connection()
         conn.execute(
-            'INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)',
-            (name, partner_type, resources, email, number)
+            'INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)',
+            (category, name, description, size, address, phone, website)
         )
         conn.commit()
         conn.close()
@@ -146,14 +150,18 @@ def delete(partner_id):
 
     return redirect(url_for('index'))
 
-
 @app.route('/edit/<int:partner_id>', methods=['GET', 'POST'])
 def edit(partner_id):
-    if 'user' not in session or session['user'] != 'admin':
-        return redirect(url_for('login'))
+    # if 'user' not in session or session['user'] != 'admin':
+    #     return redirect(url_for('login'))
+
+
 
     conn = get_db_connection()
     partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
+    
+    if check_if_user_is_admin() == False:
+        return render_template('studentView.html', partner=partner)
 
     if partner is None:
         flash('Partner not found', 'error')
@@ -162,16 +170,18 @@ def edit(partner_id):
 
     if request.method == 'POST':
         # Retrieve updated details from the form
+        category = request.form['category']
         name = request.form['name']
-        partner_type = request.form['type']
-        resources = request.form['resources']
-        email = request.form['email']
-        number = request.form['number']
+        description = request.form['type']
+        size = request.form['resources']
+        address = request.form['address']
+        phone = request.form['email']
+        website = request.form['website']
 
         # Update partner details in the database
         conn.execute(
-            'UPDATE partners SET name = ?, type = ?, resources = ?, email = ?, number = ? WHERE id = ?',
-            (name, partner_type, resources, email, number, partner_id)
+            'UPDATE partners SET category = ?, name = ?, description = ?, size = ?, address = ?, phone = ?, website = ? WHERE id = ?',
+            (category, name, description, size, address, phone, website, partner_id)
         )
         conn.commit()
         conn.close()
@@ -179,8 +189,8 @@ def edit(partner_id):
         return redirect(url_for('index'))
 
     conn.close()
-
     return render_template('edit.html', partner=partner)
+
 # Delete all partners route - Deletes all partners from the database
 @app.route('/delete_all', methods=['POST'])
 def delete_all():
@@ -193,7 +203,7 @@ def delete_all():
     partners_to_delete = conn.execute('SELECT * FROM partners').fetchall()
 
     # Save the partners to be deleted in the session
-    session['deleted_partners'] = [{ 'name': partner['name'], 'type': partner['type'], 'resources': partner['resources'], 'email': partner['email'], 'number': partner['number'] } for partner in partners_to_delete]
+    session['deleted_partners'] = [{'category': partner['category'], 'name': partner['name'], 'description': partner['description'], 'size': partner['size'], 'address': partner['address'], 'phone': partner['phone'], 'website': partner['website'] } for partner in partners_to_delete]
 
     # Delete all partners from the table
     conn.execute('DELETE FROM partners')
@@ -210,8 +220,8 @@ def undo_deleted_partners():
         conn = get_db_connection()
         for partner in deleted_partners:
             conn.execute(
-                'INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)',
-                (partner['name'], partner['type'], partner['resources'], partner['email'], partner['number'])
+                'INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                (partner['category'], partner['name'], partner['description'], partner['size'], partner['address'], partner['phone'], partner['website'])
             )
         conn.commit()
         conn.close()
@@ -253,11 +263,12 @@ def process_csv(csv_file):
     try:
         for row in csv_reader:
             # Check if the row contains the expected number of fields (5)
-            if len(row) != 5:
+            if len(row) != 9:
                 raise Exception("Invalid row format: Expected 5 fields")
             
-            name, member_type, resources, email, number = row
-            c.execute("INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)", (name, member_type, resources, email, number))
+            category, name, description, size, street, city, zip, phone, website = row
+            address = f"{street}, {city}, {zip}"
+            c.execute("INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)", (category, name, description, size, address, phone, website))
     except csv.Error as e:
         # If an error occurs during CSV parsing, raise an exception
         raise Exception(f'CSV parsing error: {str(e)}')

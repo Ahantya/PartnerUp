@@ -7,32 +7,42 @@
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-
-
+    <nav id="nav-bar">
+        <ul>
+            <li><a href="/index"><i class="fas fa-home"></i> Home</a></li>
+            <li class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
     <div class="container mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-4">Edit Partner</h1>
-
-        
-        <form action="/edit/{{ partner['id'] }}" method="POST" class="max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <h1 class="text-3xl font-bold mb-4">More Info and Edit</h1>
+        <form action="/edit/{{ partner['id'] }}" method="POST" class="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Category:</label>
+                <input type="text" id="Category" name="Category" value="{{ partner['Category'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name:</label>
                 <input type="text" id="name" name="name" value="{{ partner['name'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="type">Type:</label>
-                <input type="text" id="type" name="type" value="{{ partner['type'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="resources">Resources:</label>
-                <textarea id="resources" name="resources" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ partner['resources'] }}</textarea>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="resources">Description:</label>
+                <textarea id="description" name="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">{{ partner['description'] }}</textarea>
             </div>
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">email:</label>
-                <input type="text" id="email" name="email" value="{{ partner['email'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Size:</label>
+                <input type="text" id="size" name="size" value="{{ partner['size'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">number:</label>
-                <input type="text" id="number" name="number" value="{{ partner['number'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Address:</label>
+                <input type="text" id="address" name="address" value="{{ partner['address'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Phone:</label>
+                <input type="text" id="phone" name="phone" value="{{ partner['phone'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Website:</label>
+                <input type="text" id="website" name="website" value="{{ partner['website'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             </div>
             <div class="flex items-center justify-between">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save Changes</button>
@@ -40,6 +50,5 @@
             </div>
         </form>
     </div>
-
 </body>
 </html>
