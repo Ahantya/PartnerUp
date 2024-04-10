@@ -1,12 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
-from flask import redirect, url_for, request, session
-import traceback
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from flask_talisman import Talisman
 import csv
-import tkinter as tk
-from tkinter import messagebox
-
 
 app = Flask(__name__)
 Talisman(app)
@@ -77,14 +72,9 @@ def index():
     if user == 'admin' or user == 'student':
         partners = conn.execute('SELECT * FROM partners').fetchall()
         conn.close()
-
-        # Get and clear success message from session
-        success_message = session.pop('success_message', None)
-
-        return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, success_message=success_message)
+        return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin)
 
     return render_template('index.html', user=user, check_if_user_is_admin=check_if_user_is_admin)
-
 
 
 
@@ -109,12 +99,16 @@ def search():
         return render_template('index.html', user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
 
 
+# Add partner route - Displays form to add a new partner (only for admin)
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     # if 'user' not in session or session['user'] != 'admin':
     #     return redirect(url_for('login'))
 
+    
+
     if request.method == 'POST':
+        print(request.form['category'])
         category = request.form['category']
         name = request.form['name']
         description = request.form['description']
@@ -132,10 +126,8 @@ def add():
         conn.close()
         
         return redirect(url_for('index'))
-    error_message = session.pop('error_message', None)
 
-    return render_template('add.html', user=session['user'], error_message=error_message)
-
+    return render_template('add.html', user=session['user'])
 
 # Delete partner route - Deletes a partner from the database
 @app.route('/delete/<int:partner_id>', methods=['POST'])
@@ -181,12 +173,12 @@ def edit(partner_id):
 
     if request.method == 'POST':
         # Retrieve updated details from the form
-        category = request.form['category']
+        category = request.form['Category']
         name = request.form['name']
-        description = request.form['type']
-        size = request.form['resources']
+        description = request.form['description']
+        size = request.form['size']
         address = request.form['address']
-        phone = request.form['email']
+        phone = request.form['phone']
         website = request.form['website']
 
         # Update partner details in the database
@@ -245,34 +237,22 @@ def undo():
     undo_deleted_partners()
 
     return redirect(url_for('index'))
-
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        session['error_message'] = "No file part"
-        return redirect(url_for('add'))
-
+        return 'No file part'
+    
     file = request.files['file']
-
+    
     if file.filename == '':
-        session['error_message'] = "No selected file"
-        return redirect(url_for('add'))
-
+        return 'No selected file'
+    
     if file:
-        try:
+        try:    # Assuming you have a function to process the CSV and add data to the database
             process_csv(file)
-            session['success_message'] = "File processed successfully!"
             return redirect(url_for('index'))
         except Exception as e:
-            session['error_message'] = "An error occurred while processing the file."
-            # Optional: You can log the exception for debugging
-            traceback.print_exc()
-
-    return redirect(url_for('add'))
-
-
-
+            return f'Error uploading file: {str(e)}'
 
 def process_csv(csv_file):
     # Implement your CSV processing logic here
@@ -285,12 +265,16 @@ def process_csv(csv_file):
     
     try:
         for row in csv_reader:
+            # Check if the row contains the expected number of fields (5)
+            if len(row) != 9:
+                raise Exception("Invalid row format: Expected 5 fields")
             
             category, name, description, size, street, city, zip, phone, website = row
             address = f"{street}, {city}, {zip}"
             c.execute("INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)", (category, name, description, size, address, phone, website))
     except csv.Error as e:
-        return redirect(url_for('add'))
+        # If an error occurs during CSV parsing, raise an exception
+        raise Exception(f'CSV parsing error: {str(e)}')
     finally:
         conn.commit()
         conn.close()
