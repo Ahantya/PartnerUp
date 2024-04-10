@@ -1,7 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
+from flask import redirect, url_for, request, session
+import traceback
 import sqlite3
 from flask_talisman import Talisman
 import csv
+import tkinter as tk
+from tkinter import messagebox
+
 
 app = Flask(__name__)
 Talisman(app)
@@ -70,9 +75,14 @@ def index():
     if user == 'admin' or user == 'student':
         partners = conn.execute('SELECT * FROM partners').fetchall()
         conn.close()
-        return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin)
+
+        # Get and clear success message from session
+        success_message = session.pop('success_message', None)
+
+        return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, success_message=success_message)
 
     return render_template('index.html', user=user, check_if_user_is_admin=check_if_user_is_admin)
+
 
 
 
@@ -97,7 +107,6 @@ def search():
         return render_template('index.html', user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
 
 
-# Add partner route - Displays form to add a new partner (only for admin)
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if 'user' not in session or session['user'] != 'admin':
@@ -119,8 +128,10 @@ def add():
         conn.close()
         
         return redirect(url_for('index'))
+    error_message = session.pop('error_message', None)
 
-    return render_template('add.html', user=session['user'])
+    return render_template('add.html', user=session['user'], error_message=error_message)
+
 
 # Delete partner route - Deletes a partner from the database
 @app.route('/delete/<int:partner_id>', methods=['POST'])
@@ -224,22 +235,34 @@ def undo():
     undo_deleted_partners()
 
     return redirect(url_for('index'))
+
+
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return 'No file part'
-    
+        session['error_message'] = "No file part"
+        return redirect(url_for('add'))
+
     file = request.files['file']
-    
+
     if file.filename == '':
-        return 'No selected file'
-    
+        session['error_message'] = "No selected file"
+        return redirect(url_for('add'))
+
     if file:
-        try:    # Assuming you have a function to process the CSV and add data to the database
+        try:
             process_csv(file)
+            session['success_message'] = "File processed successfully!"
             return redirect(url_for('index'))
         except Exception as e:
-            return f'Error uploading file: {str(e)}'
+            session['error_message'] = "An error occurred while processing the file."
+            # Optional: You can log the exception for debugging
+            traceback.print_exc()
+
+    return redirect(url_for('add'))
+
+
+
 
 def process_csv(csv_file):
     # Implement your CSV processing logic here
@@ -252,15 +275,11 @@ def process_csv(csv_file):
     
     try:
         for row in csv_reader:
-            # Check if the row contains the expected number of fields (5)
-            if len(row) != 5:
-                raise Exception("Invalid row format: Expected 5 fields")
             
             name, member_type, resources, email, number = row
             c.execute("INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)", (name, member_type, resources, email, number))
     except csv.Error as e:
-        # If an error occurs during CSV parsing, raise an exception
-        raise Exception(f'CSV parsing error: {str(e)}')
+        return redirect(url_for('add'))
     finally:
         conn.commit()
         conn.close()

@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Partner</title>
     <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <nav id="nav-bar">
         <ul>
             <li><a href="/index"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
+            <li><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
             <li class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul>
     </nav>
-    <div class="add_container mx-auto px-4 py-8 pr-4" >
+    <div class="add_container mx-auto px-4 py-8 pr-4">
         <div class="add_section-container">
             <h1 class="text-3xl font-bold mb-5">Add Partner</h1>
             <form action="/add" method="POST" class="max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-5">
@@ -33,11 +34,11 @@
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
-                    <input type="text" id="email" name="email" placeholder="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" id="email" name="email" placeholder="Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Number:</label>
-                    <input type="text" id="number" name="number" placeholder="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" id="number" name="number" placeholder="Phone Number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="flex items-center justify-between">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Partner</button>
@@ -49,14 +50,19 @@
             <h1 class="text-3xl font-bold mb-4">Upload CSV File</h1>
             <form action="/upload" method="post" class="max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" enctype="multipart/form-data">
                 <input type="file" name="file" accept=".csv">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Upload</button>
+                <button type="submit" class="upload-btn bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Upload</button>
             </form>
+
+            {% if error_message %}
+            <div class="alert alert-danger custom-alert alert-dismissible fade show" role="alert">
+                <strong>{{ error_message }}</strong>
+            </div>
+            {% endif %}
         </div>
+        
+        
     </div>
-    <!-- <h1>Upload CSV File</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv">
-        <button type="submit">Upload</button>
-    </form> -->
+    
+    <script src="static/script.js"></script>
 </body>
 </html>

@@ -878,10 +878,18 @@ h1, p {
     margin-left: 0.5rem;
   }
 
+
+
   .block {
     display: block;
   }
 
+
+  .custom-alert {
+    max-width: 900px; /* Set your desired width */
+    width: 73.7%; /* If you want it to take 90% of the container */
+    
+}
   .inline-block {
     display: inline-block;
   }

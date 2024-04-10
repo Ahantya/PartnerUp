@@ -58,3 +58,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+
+function showMessage(message, isSuccess) {
+    if (isSuccess) {
+        alert("Success: " + message);
+    } else {
+        alert("Error: " + message);
+    }
+}
+
+setTimeout(function() {
+    var successAlert = document.getElementById('successAlert');
+    if (successAlert) {
+        successAlert.style.display = 'none';
+    }
+}, 4000); 
+
