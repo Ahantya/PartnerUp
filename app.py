@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import sqlite3
 from flask_talisman import Talisman
+import csv
 
 app = Flask(__name__)
 Talisman(app)
@@ -224,27 +225,46 @@ def undo():
 
     return redirect(url_for('index'))
 
-# @app.route('/upload', methods=['POST'])
-# def upload_file():
-#     if 'file' not in request.files:
-#         return 'No file part'
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return 'No file part'
     
-#     file = request.files['file']
+    file = request.files['file']
     
-#     if file.filename == '':
-#         return 'No selected file'
+    if file.filename == '':
+        return 'No selected file'
     
-#     if file:
-#         # Assuming you have a function to process the CSV and add data to the database
-#         process_csv(file)
-#         return 'File uploaded successfully'
-#     else:
-#         return 'Error uploading file'
+    if file:
+        try:    # Assuming you have a function to process the CSV and add data to the database
+            process_csv(file)
+            return redirect(url_for('index'))
+        except Exception as e:
+            return f'Error uploading file: {str(e)}'
 
-# def process_csv(file):
-#     # Implement your CSV processing logic here
-#     # Example: Read the CSV file and add data to the database
-#     pass
+def process_csv(csv_file):
+    # Implement your CSV processing logic here
+    # Example: Read the CSV file and add data to the database
+    conn = sqlite3.connect('partners.db')
+    c = conn.cursor()
+    
+    csv_data = csv_file.stream.read().decode("utf-8")
+    csv_reader = csv.reader(csv_data.splitlines())
+    
+    try:
+        for row in csv_reader:
+            # Check if the row contains the expected number of fields (5)
+            if len(row) != 5:
+                raise Exception("Invalid row format: Expected 5 fields")
+            
+            name, member_type, resources, email, number = row
+            c.execute("INSERT INTO partners (name, type, resources, email, number) VALUES (?, ?, ?, ?, ?)", (name, member_type, resources, email, number))
+    except csv.Error as e:
+        # If an error occurs during CSV parsing, raise an exception
+        raise Exception(f'CSV parsing error: {str(e)}')
+    finally:
+        conn.commit()
+        conn.close()
 
 # Function to check if the user is an admin (simulated)
 def check_if_user_is_admin():

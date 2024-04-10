@@ -124,6 +124,22 @@ nav ul li a:hover {
     padding: 0 20px;
 }
 
+.add_container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.add_section-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.add_section-container h1 [
+  margin: 0;
+]
+
 /* Additional styles for content */
 h1, p {
     color: #333;
@@ -387,10 +403,107 @@ h1, p {
   background-color: #FF8C00; 
 }
 
+
+#nav-bar {
+  padding: 20px;
+  background-color: #333;
+  overflow: hidden;
+}
+
+#nav-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+
+/* Change icon color to blue on hover */
+#nav-bar ul li a:hover i {
+  color: #3B82F6
+}
+
+#nav-bar ul li {
+  display: inline;
+}
+
+#nav-bar {
+  background-color: #333;
+  overflow: hidden;
+  display: flex;
+  justify-content: center; 
+}
+
+#nav-bar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+
+
+#nav-bar ul li a {
+  display: block;
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+#nav-bar ul li a:hover {
+  background-color: #555;
+}
+
+#nav-bar ul li.logout {
+  float: right;
+}
+
+#nav-bar ul li.logout a {
+  float: right;
+}
+
+@media screen and (max-width: 600px) {
+  #nav-bar ul {
+      display: flex;
+      flex-direction: column;
+  }
+
+  #nav-bar ul li {
+      display: block;
+      margin-bottom: 10px;
+  }
+
+  #nav-bar ul li.logout {
+      float: none;
+  }
+
+  #nav-bar ul li.logout a {
+      float: none;
+  }
+}
+
 .edit-btn:focus {
   outline: none;
   background-color: #FF8C00; 
 
+}
+
+#navforlogin {
+  padding: 3.3px; 
+  /* background-color: #3B82F6 */
+}
+
+
+#navforlogin ul {
+  display: block;
+  color: white;
+  padding: 14px 20px;
+  text-decoration: none;
+  font-size: 40px;
+  text-align: center;
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  
 }
 
 
