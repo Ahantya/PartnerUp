@@ -21,24 +21,32 @@
             <h1 class="text-3xl font-bold mb-5">Add Partner</h1>
             <form action="/add" method="POST" class="max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-5">
                 <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Category:</label>
+                    <input type="text" id="category" name="category" placeholder="category" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name:</label>
                     <input type="text" id="name" name="name" placeholder="Partner Name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="type">Type:</label>
-                    <input type="text" id="type" name="type" placeholder="Type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="type">Description:</label>
+                    <textarea type="text" id="description" name="description" placeholder="description" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="resources">Resources:</label>
-                    <textarea id="resources" name="resources" placeholder="Resources" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="resources">Size:</label>
+                    <input id="size" name="size" placeholder="size" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Address:</label>
+                    <input type="text" id="address" name="address" placeholder="address" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email:</label>
-                    <input type="text" id="email" name="email" placeholder="Email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" id="email" name="email" placeholder="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="mb-6">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="contact">Number:</label>
-                    <input type="text" id="number" name="number" placeholder="Phone Number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    <input type="text" id="number" name="number" placeholder="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                 </div>
                 <div class="flex items-center justify-between">
                     <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add Partner</button>
@@ -63,7 +71,10 @@
         
         
     </div>
-    
-    <script src="static/script.js"></script>
+    <!-- <h1>Upload CSV File</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".csv">
+        <button type="submit">Upload</button>
+    </form> -->
 </body>
 </html>
