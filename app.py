@@ -107,8 +107,8 @@ def search():
 # Add partner route - Displays form to add a new partner (only for admin)
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    # if 'user' not in session or session['user'] != 'admin':
-    #     return redirect(url_for('login'))
+    if 'user' not in session or session['user'] != 'admin':
+        return redirect(url_for('login'))
 
     
 
@@ -225,6 +225,7 @@ def delete_all():
 
 def undo_deleted_partners():
     deleted_partners = session.pop('deleted_partners', None)
+    print(deleted_partners)
     if deleted_partners:
         conn = get_db_connection()
         for partner in deleted_partners:
