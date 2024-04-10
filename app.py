@@ -7,6 +7,8 @@ app = Flask(__name__)
 Talisman(app)
 app.secret_key = 'your_secret_key'
 
+soumik = []
+
 # Function to create a connection to the SQLite database
 def get_db_connection():
     conn = sqlite3.connect('partners.db')
@@ -105,6 +107,8 @@ def search():
 
 
 # Add partner route - Displays form to add a new partner (only for admin)
+
+
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if 'user' not in session or session['user'] != 'admin':
@@ -210,10 +214,13 @@ def delete_all():
 
     # Retrieve all partners to be deleted
     partners_to_delete = conn.execute('SELECT * FROM partners').fetchall()
+    print(partners_to_delete, "patners to delte")
 
     # Save the partners to be deleted in the session
-    session['deleted_partners'] = [{'category': partner['category'], 'name': partner['name'], 'description': partner['description'], 'size': partner['size'], 'address': partner['address'], 'phone': partner['phone'], 'website': partner['website'] } for partner in partners_to_delete]
+    global soumik
+    soumik = [{'category': partner['category'], 'name': partner['name'], 'description': partner['description'], 'size': partner['size'], 'address': partner['address'], 'phone': partner['phone'], 'website': partner['website'] } for partner in partners_to_delete]
 
+    
     # Delete all partners from the table
     conn.execute('DELETE FROM partners')
     conn.commit()
@@ -224,11 +231,12 @@ def delete_all():
 
 
 def undo_deleted_partners():
+
     deleted_partners = session.pop('deleted_partners', None)
-    print(deleted_partners)
-    if deleted_partners:
+    print(soumik)
+    if soumik:
         conn = get_db_connection()
-        for partner in deleted_partners:
+        for partner in soumik:
             conn.execute(
                 'INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 (partner['category'], partner['name'], partner['description'], partner['size'], partner['address'], partner['phone'], partner['website'])
