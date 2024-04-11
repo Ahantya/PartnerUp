@@ -23,7 +23,10 @@
             <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a>
             <a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a>
         {% endif %}
-        <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="/" id="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a href="{{ url_for('generate_report', search=search_term) }}"
+            id="generateReportButton"><i class="fas fa-download"></i>
+        Generate Data Report</a>
     </div>
     <div class="container mx-auto px-4 py-8 w-full">
 
@@ -33,8 +36,10 @@
             <div class="flex items-center">
                 <input id="no" type="text" name="search" placeholder="Search..." value="{{ search_term }}"
                     class="border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex-grow">
-                <button type="submit"
-                    class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
+                    <button id="searchButton" type="submit"
+                    class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                    >Search</button>
+            
             </div>
         </form>
         

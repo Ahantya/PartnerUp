@@ -10,6 +10,53 @@ app.secret_key = 'your_secret_key'
 
 soumik = []
 aaron = ""
+
+import csv
+from flask import Flask, render_template, request, make_response
+
+@app.route('/generate_report', methods=['GET'])
+def generate_report():
+    search_term = request.args.get('search', '')  # Get the search term from the query string
+
+    conn = get_db_connection()
+
+    # Retrieve partners based on the search term
+    partners = conn.execute(
+        'SELECT * FROM partners WHERE name LIKE ? OR address LIKE ? OR description LIKE ? OR category LIKE ?',
+        ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
+    ).fetchall()
+
+    conn.close()
+
+    # Create a CSV string with the partner data
+    csv_data = "Category,Name,Description,Size,Street,City,Zip,Phone,Website\n"
+    for partner in partners:
+        # Unpack the partner data
+        category, name, description, size, address, phone, website = partner['category'], partner['name'], partner['description'], partner['size'], partner['address'], partner['phone'], partner['website']
+
+        # Split address into street, city, and zip
+        if address:
+            address_parts = address.split(', ')
+            if len(address_parts) >= 3:
+                street, city, zip_code = address_parts[0], address_parts[1], address_parts[2]
+            else:
+                street, city, zip_code = address_parts[0], '', ''
+
+        # Format the website URL if needed
+        if website and not website.startswith("http://") and not website.startswith("https://"):
+            website = "https://" + website
+
+        # Create the CSV row
+        csv_data += f"{category},{name},{description},{size},{street},{city},{zip_code},{phone},{website}\n"
+
+    # Create a response with the CSV as a file attachment
+    response = make_response(csv_data)
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = 'attachment; filename=partners_report.csv'
+
+    return response
+
+
  
 # Function to create a connection to the SQLite database
 def get_db_connection():
@@ -71,6 +118,7 @@ def logout():
 @app.route('/index', methods=['GET', 'POST'])
 def index():
     global aaron
+
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -139,7 +187,7 @@ def add():
         address = request.form['address']
         phone = request.form['phone']
         website = request.form['website']
-        if not website.startswith("http://") and not website.startswith("https://") and len(website)>0:
+        if not website.startswith("http://") and not website.startswith("https://") and len(website)!=0:
             website = "https://" + website
 
 
@@ -205,7 +253,9 @@ def edit(partner_id):
         address = request.form['address']
         phone = request.form['phone']
         website = request.form['website']
-
+        if not website.startswith("http://") and not website.startswith("https://") and len(website)!=0:
+            website = "https://" + website
+    
         
         conn.execute(
             'UPDATE partners SET category = ?, name = ?, description = ?, size = ?, address = ?, phone = ?, website = ? WHERE id = ?',
@@ -213,10 +263,8 @@ def edit(partner_id):
         )
         conn.commit()
         conn.close()
-        return redirect(url_for('search', search=aaron))
+        return redirect(url_for('index'))
     
-    print("Search Term:", aaron)
-    print("Request URL:", request.url)
 
     conn.close()  # Get the search term from the URL
     return render_template('edit.html', partner=partner, aaron=aaron)
@@ -231,7 +279,7 @@ def delete_all():
 
     # Retrieve all partners to be deleted
     partners_to_delete = conn.execute('SELECT * FROM partners').fetchall()
-    print(partners_to_delete, "patners to delte")
+    
 
     # Save the partners to be deleted in the session
     global soumik
@@ -250,7 +298,7 @@ def delete_all():
 def undo_deleted_partners():
 
     deleted_partners = session.pop('deleted_partners', None)
-    print(soumik)
+    # print(soumik)
     if soumik:
         conn = get_db_connection()
         for partner in soumik:
@@ -300,12 +348,15 @@ def process_csv(csv_file):
     
     csv_data = csv_file.stream.read().decode("utf-8")
     csv_reader = csv.reader(csv_data.splitlines())
+
+    # Skip the header row
+    next(csv_reader, None)
     
     try:
         for row in csv_reader:
             # Check if the row contains the expected number of fields (5)
             if len(row) != 9:
-                raise Exception("Invalid row format: Expected 5 fields")
+                raise Exception("Invalid row format: Expected 9 fields")
             
             category, name, description, size, street, city, zip, phone, website = row
             if not website.startswith("http://") and not website.startswith("https://") and len(website) > 0:
@@ -318,6 +369,7 @@ def process_csv(csv_file):
     finally:
         conn.commit()
         conn.close()
+
 
 def check_if_user_is_admin():
     return session['user'] != 'student'
