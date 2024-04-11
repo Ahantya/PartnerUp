@@ -10,6 +10,7 @@ app.secret_key = 'your_secret_key'
 
 soumik = []
 aaron = ""
+uname = ''
 
 import csv
 from flask import Flask, render_template, request, make_response
@@ -99,7 +100,6 @@ def create():
 
         # Add new entry to users dictionary
         users[username] = [password, is_admin]
-    print(users)
     return render_template('create.html')
 
 @app.route('/about')
@@ -109,24 +109,22 @@ def about():
 # Login route - Displays login form
 @app.route('/', methods=['GET', 'POST'])
 def login():
+    global uname
+    session.clear()
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        is_admin = users[username][1]
+        uname = username
 
         # Check if username and password match
         if username in users and users[username][0] == password:
-            session['user'] = username
+            session[uname] = [password, is_admin]
             return redirect(url_for('index'))
         
         return render_template('login.html', error='Invalid credentials')
 
     return render_template('login.html')
-
-# Logout route - Clears session
-@app.route('/logout')
-def logout():
-    session.pop('user', None)
-    return redirect(url_for('login'))
 
 # Home route - Displays all partners
 @app.route('/index', methods=['GET', 'POST'])
@@ -135,8 +133,7 @@ def index():
 
     if not check_if_user_is_admin:
         return redirect(url_for('login'))
-
-    user = session['user']
+    user = session[uname][0]
     conn = get_db_connection()
 
     search_term = request.args.get('search', '')  # Get the search term from the query string
@@ -179,10 +176,10 @@ def search():
             ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
         ).fetchall()
         conn.close()
-        return render_template('index.html', partners=partners, user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
+        return render_template('index.html', partners=partners, user=session[uname], check_if_user_is_admin=check_if_user_is_admin)
     else:
         # Handle GET request, just render the search template
-        return render_template('index.html', user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
+        return render_template('index.html', user=session[uname], check_if_user_is_admin=check_if_user_is_admin)
 
 
 # Add partner route - Displays form to add a new partner (only for admin)
@@ -190,7 +187,7 @@ def search():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    if 'user' not in session or session['user'] != 'admin':
+    if not check_if_user_is_admin:
         return redirect(url_for('login'))
 
     if request.method == 'POST':
@@ -216,12 +213,12 @@ def add():
         return redirect(url_for('index'))
     error_message = session.pop('error_message', None)
 
-    return render_template('add.html', user=session['user'], error_message=error_message)
+    return render_template('add.html', user=session[uname], error_message=error_message)
 
 # Delete partner route - Deletes a partner from the database
 @app.route('/delete/<int:partner_id>', methods=['POST'])
 def delete(partner_id):
-    if 'user' not in session or session['user'] != 'admin':
+    if not check_if_user_is_admin:
         return redirect(url_for('login'))
 
     conn = get_db_connection()
@@ -249,8 +246,8 @@ def edit(partner_id):
     conn = get_db_connection()
     partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
     search_term = request.args.get('search')
-
-    if check_if_user_is_admin() == False:
+    print(uname)
+    if session[uname][1] !='yes':
         return render_template('studentView.html', partner=partner)
 
     if partner is None:
@@ -286,7 +283,7 @@ def edit(partner_id):
 # Delete all partners route - Deletes all partners from the database
 @app.route('/delete_all', methods=['POST'])
 def delete_all():
-    if 'user' not in session or session['user'] != 'admin':
+    if not check_if_user_is_admin:
         return redirect(url_for('login'))
 
     conn = get_db_connection()
@@ -312,7 +309,6 @@ def delete_all():
 def undo_deleted_partners():
 
     deleted_partners = session.pop('deleted_partners', None)
-    # print(soumik)
     if soumik:
         conn = get_db_connection()
         for partner in soumik:
@@ -325,7 +321,7 @@ def undo_deleted_partners():
 
 @app.route('/undo', methods=['GET'])
 def undo():
-    if 'user' not in session or session['user'] != 'admin':
+    if not check_if_user_is_admin:
         return redirect(url_for('login'))
 
     undo_deleted_partners()
@@ -386,7 +382,7 @@ def process_csv(csv_file):
 
 
 def check_if_user_is_admin():
-    return session['user'][1] == 'no'
+    return session[uname][1] =='yes'
 
 if __name__ == '__main__':
     app.run(debug=True)

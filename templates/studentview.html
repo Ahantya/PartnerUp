@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Partner</title>
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <div class="topnav" id="body-color">
@@ -12,9 +13,9 @@
         <a href="/about"><i class="fas fa-info-circle" id="about-logo"></i>About and FAQ</a>
         <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-6 max-w-lg">
         <h1 class="text-3xl font-bold mb-4">More Info</h1>
-        <div class="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="w-full bg-white shadow-md rounded px-85 pt-6 pb-8 mb-4">
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Category:</label>
                 <input disabled type="text" id="Category" name="Category" value="{{ partner['Category'] }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">

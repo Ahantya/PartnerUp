@@ -22,11 +22,11 @@
             <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
             <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i>Delete All</a>
             <a href="/undo" id="undoLink"><i class="fas fa-undo"></i>Undo Delete All</a>
-            <a href="{{ url_for('generate_report', search=search_term) }}"
-            id="generateReportButton"><i class="fas fa-download"></i>
-        Generate Data Report</a>
             <a href="/create" id="create"><i class="fas fas fa-pencil-alt"></i>Create New User</a>
         {% endif %}
+        <a href="{{ url_for('generate_report', search=search_term) }}"
+            id="generateReportButton"><i class="fas fa-download"></i>
+        Generate Data Report</a>
         <a href="/" id="nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         
     </div>
