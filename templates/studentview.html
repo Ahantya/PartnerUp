@@ -7,12 +7,11 @@
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-    <nav id="nav-bar">
-        <ul>
-            <li><a href="/index"><i class="fas fa-home"></i> Home</a></li>
-            <li class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul>
-    </nav>
+    <div class="topnav" id="body-color">
+        <a href="/index"><img width=200px src="/static/Logo2.png"></a>
+        <a href="/about"><i class="fas fa-info-circle" id="about-logo"></i>About and FAQ</a>
+        <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-4">More Info</h1>
         <div class="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

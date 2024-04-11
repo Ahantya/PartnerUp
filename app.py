@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 from flask_talisman import Talisman
 import csv
+import traceback
 
 app = Flask(__name__)
 Talisman(app)
@@ -39,6 +40,9 @@ users = {
     'admin': 'LASAdmin90@',
     'student': 'LAStudent90@'
 }
+@app.route('/about')
+def about():
+    return render_template('about.html', check_if_user_is_admin=check_if_user_is_admin)
 
 # Login route - Displays login form
 @app.route('/', methods=['GET', 'POST'])
@@ -95,9 +99,10 @@ def search():
     if request.method == 'POST':
         search_term = request.form['search']
         conn = get_db_connection()
+        # Updated query to search by name, address, description, or category
         partners = conn.execute(
-            'SELECT * FROM partners WHERE name LIKE ?',
-            ('%' + search_term + '%',)
+            'SELECT * FROM partners WHERE name LIKE ? OR address LIKE ? OR description LIKE ? OR category LIKE ?',
+            ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
         ).fetchall()
         conn.close()
         return render_template('index.html', partners=partners, user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
@@ -114,8 +119,6 @@ def add():
     if 'user' not in session or session['user'] != 'admin':
         return redirect(url_for('login'))
 
-    
-
     if request.method == 'POST':
         print(request.form['category'])
         category = request.form['category']
@@ -125,6 +128,9 @@ def add():
         address = request.form['address']
         phone = request.form['phone']
         website = request.form['website']
+        if not website.startswith("http://") and not website.startswith("https://"):
+            website = "https://" + website
+
 
         conn = get_db_connection()
         conn.execute(
@@ -195,7 +201,7 @@ def edit(partner_id):
         conn.commit()
         conn.close()
 
-        return redirect(url_for('index'))
+        return redirect(url_for('search'))
 
     conn.close()
     return render_template('edit.html', partner=partner)
@@ -287,6 +293,8 @@ def process_csv(csv_file):
                 raise Exception("Invalid row format: Expected 5 fields")
             
             category, name, description, size, street, city, zip, phone, website = row
+            if not website.startswith("http://") and not website.startswith("https://"):
+                website = "https://" + website
             address = f"{street}, {city}, {zip}"
             c.execute("INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)", (category, name, description, size, address, phone, website))
     except csv.Error as e:

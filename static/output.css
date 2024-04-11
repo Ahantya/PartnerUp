@@ -142,7 +142,8 @@ h1, p {
 }
 
 #body-color {
-  background-color: rgb(148 163 184)
+  background-color: rgb(200, 230, 255);
+
 }
 
   body {
@@ -344,12 +345,12 @@ h1, p {
   
   
   #deletecustom:hover {
-    background-color: #DC2626; 
+    background-color: #004780; 
   }
   
   #deletecustom:focus {
     outline: none;
-    background-color: #DC2626; 
+    background-color: #004780; 
   
   }
 
@@ -369,6 +370,10 @@ h1, p {
   text-shadow: none;
 }
 
+#about-logo {
+  padding-right: 5px;
+}
+
 #ok {
   text-align: center;
 }
@@ -383,12 +388,13 @@ h1, p {
 }
 
 #editcustom:hover {
-    background-color: #2ba84a;
+    background-color: #93aed6;
+    text-decoration: none;
 }
 
 #editcustom:focus {
     outline: none;
-    background-color: #2ba84a;
+    background-color: #93aed6 ;
 }
 
 .edit-btn {
@@ -414,6 +420,9 @@ h1, p {
   align-items: center;
   justify-content: center;
   vertical-align: middle;
+  border-radius: 0.75rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 
 }
 
@@ -434,7 +443,6 @@ h1, p {
 
 
 .topnav a:not(:first-child):hover {
-  background-color: #ddd;
   color: black;
   padding: 33px 14px;
   text-decoration: none;
@@ -496,13 +504,14 @@ h1, p {
 
 #navforlogin {
   padding: 3.3px; 
+  background-color: rgb(200, 230, 255);
   /* background-color: #3B82F6 */
 }
 
 
 #navforlogin ul {
   display: block;
-  color: white;
+  color: #005B96;
   padding: 14px 20px;
   text-decoration: none;
   font-size: 40px;
@@ -651,6 +660,8 @@ h1, p {
   1. Reset the default placeholder opacity in Firefox. (https://github.com/tailwindlabs/tailwindcss/issues/3300)
   2. Set the default placeholder color to the user's configured gray 400 color.
   */
+
+
 
   input::-moz-placeholder, textarea::-moz-placeholder {
     opacity: 1;

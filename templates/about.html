@@ -7,89 +7,98 @@
     <title>About Us</title>
     <!-- Include Tailwind CSS -->
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-<!----- FAQ content ---->
-<section class="faq-container" style="margin-top: 40px;">
-    <div class="faq-one">
-
-        <!-- faq question -->
-        <h1 class="faq-page" style="margin-top: 20px">What is PartnerUp?</h1>
-
-        <!-- faq answer -->
-        <div class="faq-body">
-            <p>PartnerUp is an online database geared towards connecting students, teachers, and community members to prominent companies particularly in the health sector. The database dynamically updates with each user and allows users to search, filter, and view various health companies.</p>
-        </div>
+    <div class="topnav" id="body-color">
+        <a href="/index"><img width=200px src="/static/Logo2.png"></a>
+        <a href="/about"><i class="fas fa-info-circle"></i>About and FAQ</a>
+        {% if check_if_user_is_admin() %}
+            <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
+        {% endif %}
+        <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
-    <hr class="hr-line">
+    <!----- FAQ content ---->
+    <section class="faq-container" style="margin-top: 40px;">
+        <div class="faq-one">
 
-    <div class="faq-two">
+            <!-- faq question -->
+            <h1 class="faq-page" style="margin-top: 20px">What is PartnerUp?</h1>
 
-        <!-- faq question -->
-        <h1 class="faq-page"> Who can access the program and partner information?</h1>
-
-        <!-- faq answer -->
-
-        <div class="faq-body">
-            <p> Authorized users within the Career and Technical Education Department, including faculty, staff, and administrators, have access to the program. 
-                This ensures that the information is securely managed and used for educational purposes. Students may also view data, however, have no editing or deleting access. 
-               </p>
+            <!-- faq answer -->
+            <div class="faq-body">
+                <p>PartnerUp is an online database geared towards connecting students, teachers, and community members to prominent companies particularly in the health sector. The database dynamically updates with each user and allows users to search, filter, and view various health companies.</p>
+            </div>
         </div>
-    </div>
-    <hr class="hr-line">
+        <hr class="hr-line">
 
+        <div class="faq-two">
 
-    <div class="faq-four">
+            <!-- faq question -->
+            <h1 class="faq-page"> Who can access the program and partner information?</h1>
 
-        <!-- faq question -->
-<h1 class="faq-page"> How does the program benefit the students of the Career and Technical Education Department? </h1>
+            <!-- faq answer -->
 
-        <!-- faq answer -->
-        <div class="faq-body">
-            <p> The program serves as a valuable resource for students by providing access to real-world opportunities and resources offered by partner organizations. 
-                It helps students explore internships, mentorship programs, and other career-related activities aligned with their interests and career goals.</p>
+            <div class="faq-body">
+                <p> Authorized users within the Career and Technical Education Department, including faculty, staff, and administrators, have access to the program. 
+                    This ensures that the information is securely managed and used for educational purposes. Students may also view data, however, have no editing or deleting access. 
+                </p>
+            </div>
         </div>
-    </div>
-    <hr class="hr-line">
-    
-                    <div class="faq-five">
+        <hr class="hr-line">
 
-        <!-- faq question -->
-<h1 class="faq-page"> How can we view more data for each partner?</h1>
 
-        <!-- faq answer -->
-        <div class="faq-body">
-            <p> In order to view more data, you can press the "..." button, where more info such as contact phone number and email address cam be viewed. If you are logged in as an admin, it will also give you an option to edit the data.</p>
+        <div class="faq-four">
+
+            <!-- faq question -->
+    <h1 class="faq-page"> How does the program benefit the students of the Career and Technical Education Department? </h1>
+
+            <!-- faq answer -->
+            <div class="faq-body">
+                <p> The program serves as a valuable resource for students by providing access to real-world opportunities and resources offered by partner organizations. 
+                    It helps students explore internships, mentorship programs, and other career-related activities aligned with their interests and career goals.</p>
+            </div>
         </div>
-    </div>
-    <hr class="hr-line">
-    
-<div class="faq-six">
+        <hr class="hr-line">
+        
+                        <div class="faq-five">
 
-        <!-- faq question -->
-<h1 class="faq-page">How many partners can be added? </h1>
+            <!-- faq question -->
+    <h1 class="faq-page"> How can we view more data for each partner?</h1>
 
-        <!-- faq answer -->
-        <div class="faq-body">
-            <p>Currently, you can add as many partners as you want, including through a CSV file.  </p>
+            <!-- faq answer -->
+            <div class="faq-body">
+                <p> In order to view more data, you can press the "..." button, where more info such as contact phone number and email address cam be viewed. If you are logged in as an admin, it will also give you an option to edit the data.</p>
+            </div>
         </div>
-    </div>
-    <hr class="hr-line">
-
+        <hr class="hr-line">
+        
     <div class="faq-six">
 
- <div class="faq-seven">
-        <!-- faq question -->
-<h1 class="faq-page">What inspired PartnerUp?</h1>
+            <!-- faq question -->
+    <h1 class="faq-page">How many partners can be added? </h1>
 
-        <!-- faq answer -->
-        <div class="faq-body">
-            <p>Last year, one of our founders was interested in finding a health-related internship for a class at school. This was a difficult but overall enlightening process, as one particular problem he encountered was finding companies to reach out to. With PartnerUp, we solve the problem of connecting students to bio companies to ease future students who are either taking the same class just interested in health, with finding an internship.</p>
+            <!-- faq answer -->
+            <div class="faq-body">
+                <p>Currently, you can add as many partners as you want, including through a CSV file.  </p>
+            </div>
         </div>
-    </div>
-    <hr class="hr-line">
+        <hr class="hr-line">
 
-</section>
+        <div class="faq-six">
+
+    <div class="faq-seven">
+            <!-- faq question -->
+    <h1 class="faq-page">What inspired PartnerUp?</h1>
+
+            <!-- faq answer -->
+            <div class="faq-body">
+                <p>Last year, one of our founders was interested in finding a health-related internship for a class at school. This was a difficult but overall enlightening process, as one particular problem he encountered was finding companies to reach out to. With PartnerUp, we solve the problem of connecting students to bio companies to ease future students who are either taking the same class just interested in health, with finding an internship.</p>
+            </div>
+        </div>
+        <hr class="hr-line">
+
+    </section>
 </body>
 
 <script src="static/script.js"></script>

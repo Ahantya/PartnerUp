@@ -14,39 +14,20 @@
 
 
 
-<body class="bg-gray-400">
-    <div class="topnav bg-slate-100" id="nav-bar">
+<body class="bg-gray-100">
+    <div class="topnav" id="body-color">
         <a href="/index"><img width=200px src="/static/Logo2.png"></a>
-        <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
-        <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a>
-        <a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a>
+        <a href="/about"><i class="fas fa-info-circle" id="about-logo"></i>About and FAQ</a>
+        {% if check_if_user_is_admin() %}
+            <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
+            <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a>
+            <a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a>
+        {% endif %}
         <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
-    <!-- <nav class="bg-gray-100" id="nav-bar">
-        <a href="/index"><img height=50px width=150px src="/static/Logo2.png"></a>
-        <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
-        <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a>
-        <a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a>
-    </nav> -->
-    <!-- <nav class="bg-gray-100" id="nav-bar">
-        <ul1 style="padding:0;">
-            <li><a href="/index"><img height=50px width=150px src="/static/Logo2.png"></a></li>
-            {% if check_if_user_is_admin() %}
-                <li><a href="/add"><i class="fas fa-plus"></i> Add Partner</a></li>
-                <li><a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a></li>
-                <li><a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a></li>
-            {% endif %}    
-        </ul1>
-        <ul2>
-            <li style="padding-top:1000px; float: right;" class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-        </ul2>
-    </nav> -->
-
-
-
     <div class="container mx-auto px-4 py-8">
 
-        <h1 class="text-3xl font-bold mb-4">PartnerUp</h1>
+        <h1 class="text-3xl font-bold mb-4">Welcome to PartnerUp!</h1>
 
         <form action="/search" method="POST" class="mb-6">
             <div class="flex items-center">
@@ -89,7 +70,7 @@
                     <td class="border border-gray-200 px-4 py-2">{{ loop.index }}</td>
                     <td class="border border-gray-200 px-4 py-2">{{ partner['Category'] }}</td>
                     <td class="border border-gray-200 px-4 py-2">{{ partner['Name'] }}</td>
-                    <td class="border border-gray-200 px-4 py-2">{{ partner['Website'] }}</td>
+                    <td class="border border-gray-200 px-4 py-2"><a href= "{{partner['Website']}}">{{ partner['Website'] }}</a></td>
                     <td class="border border-gray-200 px-4 py-2">
                         <div class="whoknows" id="yuppers">
                             <a href="/edit/{{ partner['id'] }}" id="editcustom">...</a>
