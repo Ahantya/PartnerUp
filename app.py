@@ -165,10 +165,6 @@ def delete(partner_id):
 
 @app.route('/edit/<int:partner_id>', methods=['GET', 'POST'])
 def edit(partner_id):
-    # if 'user' not in session or session['user'] != 'admin':
-    #     return redirect(url_for('login'))
-
-
 
     conn = get_db_connection()
     partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
