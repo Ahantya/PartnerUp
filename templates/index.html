@@ -25,13 +25,13 @@
         {% endif %}
         <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
     </div>
-    <div class="container mx-auto px-4 py-8">
+    <div class="container mx-auto px-4 py-8 w-full">
 
         <h1 class="text-3xl font-bold mb-4">Welcome to PartnerUp!</h1>
 
         <form action="/search" method="POST" class="mb-6">
             <div class="flex items-center">
-                <input type="text" name="search" placeholder="Search..."
+                <input id="no" type="text" name="search" placeholder="Search..."
                     class="border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex-grow">
                 <button type="submit"
                     class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
