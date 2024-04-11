@@ -15,6 +15,11 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
+def get_admindb_connection():
+    conn = sqlite3.connect('admins.db')
+    conn.row_factory = sqlite3.Row
+    return conn
+
 # Function to create the 'partners' table if it doesn't exist
 def create_table():
     conn = get_db_connection()
@@ -33,12 +38,29 @@ def create_table():
     conn.commit()
     conn.close()
 
+# Function to create the 'users' table if it doesn't exist
+def create_admin():
+    conn = get_admindb_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS admins (
+            id INTEGER PRIMARY KEY,
+            username TEXT NOT NULL,
+            password TEXT NOT NULL
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+
+
+    
 # Create the 'partners' table when the app starts
 create_table()
-users = {
-    'admin': 'LASAdmin90@',
-    'student': 'LAStudent90@'
-}
+create_admin()
+# users = {
+#     'admin': 'LASAdmin90@',
+#     'student': 'LAStudent90@'
+# }
 
 # Login route - Displays login form
 @app.route('/', methods=['GET', 'POST'])
@@ -46,14 +68,19 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        
+        # Check if username and password match in the 'admins' table
+        conn = get_admindb_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM admins WHERE username = ? AND password = ?", (username, password))
+        user = cursor.fetchone()
+        conn.close()
 
-        # Check if username and password match
-        if username in users and users[username] == password:
+        if user is not None:
             session['user'] = username
             return redirect(url_for('index'))
         
         return render_template('login.html', error='Invalid credentials')
-
     return render_template('login.html')
 
 # Logout route - Clears session
@@ -138,6 +165,11 @@ def add():
     error_message = session.pop('error_message', None)
 
     return render_template('add.html', user=session['user'], error_message=error_message)
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 
 # Delete partner route - Deletes a partner from the database
 @app.route('/delete/<int:partner_id>', methods=['POST'])
