@@ -67,24 +67,31 @@ def logout():
     return redirect(url_for('login'))
 
 # Home route - Displays all partners
-@app.route('/index')
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     if 'user' not in session:
         return redirect(url_for('login'))
 
     user = session['user']
     conn = get_db_connection()
-    
-    if user == 'admin' or user == 'student':
-        partners = conn.execute('SELECT * FROM partners').fetchall()
-        conn.close()
 
-        # Get and clear success message from session
-        success_message = session.pop('success_message', None)
+    search_term = request.args.get('search', '')  # Get the search term from the query string
 
-        return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, success_message=success_message)
+    if request.method == 'POST':
+        search_term = request.form['search']
+        # Perform the search query as before
 
-    return render_template('index.html', user=user, check_if_user_is_admin=check_if_user_is_admin)
+    # Retrieve partners based on the search term
+    partners = conn.execute(
+        'SELECT * FROM partners WHERE name LIKE ? OR address LIKE ? OR description LIKE ? OR category LIKE ?',
+        ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
+    ).fetchall()
+
+    conn.close()
+
+    # Pass the search term and partners to the template
+    return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, search_term=search_term)
+
 
 
 
@@ -128,7 +135,7 @@ def add():
         address = request.form['address']
         phone = request.form['phone']
         website = request.form['website']
-        if not website.startswith("http://") and not website.startswith("https://"):
+        if not website.startswith("http://") and not website.startswith("https://") and len(website)>0:
             website = "https://" + website
 
 
@@ -171,10 +178,12 @@ def delete(partner_id):
 
 @app.route('/edit/<int:partner_id>', methods=['GET', 'POST'])
 def edit(partner_id):
+    
 
     conn = get_db_connection()
     partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
-    
+    search_term = request.args.get('search', '')
+
     if check_if_user_is_admin() == False:
         return render_template('studentView.html', partner=partner)
 
@@ -182,7 +191,7 @@ def edit(partner_id):
         flash('Partner not found', 'error')
         conn.close()
         return redirect(url_for('index'))
-
+    
     if request.method == 'POST':
         # Retrieve updated details from the form
         category = request.form['Category']
@@ -200,11 +209,10 @@ def edit(partner_id):
         )
         conn.commit()
         conn.close()
+        return redirect(url_for('search', search=search_term))
 
-        return redirect(url_for('search'))
-
-    conn.close()
-    return render_template('edit.html', partner=partner)
+    conn.close()  # Get the search term from the URL
+    return render_template('edit.html', partner=partner, search_term=search_term)
 
 # Delete all partners route - Deletes all partners from the database
 @app.route('/delete_all', methods=['POST'])
@@ -293,7 +301,7 @@ def process_csv(csv_file):
                 raise Exception("Invalid row format: Expected 5 fields")
             
             category, name, description, size, street, city, zip, phone, website = row
-            if not website.startswith("http://") and not website.startswith("https://"):
+            if not website.startswith("http://") and not website.startswith("https://") and len(website) > 0:
                 website = "https://" + website
             address = f"{street}, {city}, {zip}"
             c.execute("INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)", (category, name, description, size, address, phone, website))

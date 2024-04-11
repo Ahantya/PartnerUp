@@ -29,14 +29,16 @@
 
         <h1 class="text-3xl font-bold mb-4">Welcome to PartnerUp!</h1>
 
-        <form action="/search" method="POST" class="mb-6">
+        <form action="{{ url_for('index', search=search_term) }}" method="GET" class="mb-6">
             <div class="flex items-center">
-                <input id="no" type="text" name="search" placeholder="Search..."
+                <input id="no" type="text" name="search" placeholder="Search..." value="{{ search_term }}"
                     class="border border-gray-300 px-3 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent flex-grow">
                 <button type="submit"
                     class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Search</button>
             </div>
         </form>
+        
+        
 
         {% if success_message %}
         <div id="successAlert" class="alert alert-success alert-dismissible fade show" role="alert">
@@ -73,7 +75,7 @@
                     <td class="border border-gray-200 px-4 py-2"><a href= "{{partner['Website']}}">{{ partner['Website'] }}</a></td>
                     <td class="border border-gray-200 px-4 py-2">
                         <div class="whoknows" id="yuppers">
-                            <a href="/edit/{{ partner['id'] }}" id="editcustom">...</a>
+                            <a href="/edit/{{ partner['id'] }}" id="editcustom">More</a>
                             <script>
                                 document.getElementById('redirectButton').addEventListener('click', function () { window.location.href = '/studentview/<int:partner_id>'; });
                             </script>
