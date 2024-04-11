@@ -15,11 +15,6 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-def get_admindb_connection():
-    conn = sqlite3.connect('admins.db')
-    conn.row_factory = sqlite3.Row
-    return conn
-
 # Function to create the 'partners' table if it doesn't exist
 def create_table():
     conn = get_db_connection()
@@ -38,29 +33,12 @@ def create_table():
     conn.commit()
     conn.close()
 
-# Function to create the 'users' table if it doesn't exist
-def create_admin():
-    conn = get_admindb_connection()
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS admins (
-            id INTEGER PRIMARY KEY,
-            username TEXT NOT NULL,
-            password TEXT NOT NULL
-        )
-    ''')
-    conn.commit()
-    conn.close()
-
-
-
-    
 # Create the 'partners' table when the app starts
 create_table()
-create_admin()
-# users = {
-#     'admin': 'LASAdmin90@',
-#     'student': 'LAStudent90@'
-# }
+users = {
+    'admin': 'LASAdmin90@',
+    'student': 'LAStudent90@'
+}
 
 # Login route - Displays login form
 @app.route('/', methods=['GET', 'POST'])
@@ -68,19 +46,14 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        
-        # Check if username and password match in the 'admins' table
-        conn = get_admindb_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM admins WHERE username = ? AND password = ?", (username, password))
-        user = cursor.fetchone()
-        conn.close()
 
-        if user is not None:
+        # Check if username and password match
+        if username in users and users[username] == password:
             session['user'] = username
             return redirect(url_for('index'))
         
         return render_template('login.html', error='Invalid credentials')
+
     return render_template('login.html')
 
 # Logout route - Clears session
@@ -122,10 +95,9 @@ def search():
     if request.method == 'POST':
         search_term = request.form['search']
         conn = get_db_connection()
-        # Updated query to search by name, address, description, or category
         partners = conn.execute(
-            'SELECT * FROM partners WHERE name LIKE ? OR address LIKE ? OR description LIKE ? OR category LIKE ?',
-            ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
+            'SELECT * FROM partners WHERE name LIKE ?',
+            ('%' + search_term + '%',)
         ).fetchall()
         conn.close()
         return render_template('index.html', partners=partners, user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
@@ -166,11 +138,6 @@ def add():
     error_message = session.pop('error_message', None)
 
     return render_template('add.html', user=session['user'], error_message=error_message)
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
 
 # Delete partner route - Deletes a partner from the database
 @app.route('/delete/<int:partner_id>', methods=['POST'])

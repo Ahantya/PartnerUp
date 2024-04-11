@@ -419,13 +419,17 @@ h1, p {
 
 .topnav a {
   float: left;
-  color: #f2f2f2;
+  color: #005B96;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
   align-items: center;
   justify-content: center;
+}
+
+.topnav a:not(:first-child) {
+  padding: 33px 14px;
 }
 
 
@@ -1131,3 +1135,87 @@ h1, p {
     --tw-ring-color: rgb(59 130 246 / var(--tw-ring-opacity));
   }
   
+
+  .faq-heading{
+    border-bottom: #777;
+    padding: 20px 60px;
+    font-family: 'Allura', cursive;
+    color: #fff;
+    text-align: center;
+}
+.faq-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.hr-line{
+  width: 60%;
+  margin: auto;
+  border-color: #2E4057;
+  
+  
+}
+
+.faq-body{
+    margin: auto;
+   width: 50%; 
+   padding: auto;
+   
+}
+
+
+.faq-page {
+    color: #444;
+    cursor: pointer;
+    padding: 30px 20px;
+    width: 60%;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    margin: auto;
+
+}
+
+
+
+.active,
+.faq-page:hover {
+    background-color: #35BCE9;
+}
+
+
+.faq-body {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+.faq-page:after {
+    content: '\02795';
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2796";
+
+}
+
+
+.faqheader {
+	height: 50vh;
+	width: 100%;
+	background-image: linear-gradient(rgba(4, 9, 30, 0.7), rgba(4, 9, 30, 0.7)), url(images/FAQ.jpg);
+	background-position: center;
+	background-size: cover;
+	color: #fff;
+	
+	
+}
+
+.faqheader h1 {
+	text-align: center;
+}
