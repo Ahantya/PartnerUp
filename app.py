@@ -85,9 +85,23 @@ def create_table():
 # Create the 'partners' table when the app starts
 create_table()
 users = {
-    'admin': 'LASAdmin90@',
-    'student': 'LAStudent90@'
+    'admin': ['LASAdmin90@', 'yes'],
+    'student': ['LAStudent90@', 'no']
 }
+
+@app.route('/create', methods = ['GET','POST'])
+def create():
+    if request.method == 'POST':
+        # Get data from the request
+        username = request.form.get('username')
+        password = request.form.get('password')
+        is_admin = request.form.get('is_admin')
+
+        # Add new entry to users dictionary
+        users[username] = [password, is_admin]
+    print(users)
+    return render_template('create.html')
+
 @app.route('/about')
 def about():
     return render_template('about.html', check_if_user_is_admin=check_if_user_is_admin)
@@ -100,7 +114,7 @@ def login():
         password = request.form['password']
 
         # Check if username and password match
-        if username in users and users[username] == password:
+        if username in users and users[username][0] == password:
             session['user'] = username
             return redirect(url_for('index'))
         
@@ -119,7 +133,7 @@ def logout():
 def index():
     global aaron
 
-    if 'user' not in session:
+    if not check_if_user_is_admin:
         return redirect(url_for('login'))
 
     user = session['user']
@@ -372,7 +386,7 @@ def process_csv(csv_file):
 
 
 def check_if_user_is_admin():
-    return session['user'] != 'student'
+    return session['user'][1] == 'no'
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -362,7 +362,31 @@ h1, p {
     padding-bottom: 0.5rem;
     padding: 8px 16px;
     background-color: #b3cde0; 
-    color: #FFFFFF;
+    color: #333;
+    border-radius: 0.5rem;
+}
+
+#admin-yes {
+  margin-left: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding: 8px 16px;
+    background-color: #b3cde0; 
+    color: #333;
+    border-radius: 0.5rem;
+}
+
+#admin-no {
+  margin-left: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding: 8px 16px;
+    background-color: #005B96; 
+    color: #cccccc;
     border-radius: 0.5rem;
 }
 
@@ -390,6 +414,16 @@ h1, p {
 #editcustom:hover {
     background-color: #93aed6;
     text-decoration: none;
+}
+
+#admin-yes:hover {
+  background-color: #93aed6;
+  text-decoration: none;
+}
+
+#admin-no:hover {
+  background-color: #5285a1;
+  text-decoration: none;
 }
 
 #editcustom:focus {
