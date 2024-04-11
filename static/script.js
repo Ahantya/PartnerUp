@@ -73,7 +73,7 @@ setTimeout(function() {
     if (successAlert) {
         successAlert.style.display = 'none';
     }
-}, 4000); 
+}, 3000); 
 
 
 setTimeout(function() {
@@ -81,7 +81,7 @@ setTimeout(function() {
         if (errorAlert) {
             errorAlert.style.display = 'none';
         }
-    }, 4000);
+    }, 3000);
 
 
     var faq = document.getElementsByClassName("faq-page");
