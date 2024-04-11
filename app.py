@@ -9,7 +9,8 @@ Talisman(app)
 app.secret_key = 'your_secret_key'
 
 soumik = []
-
+aaron = ""
+ 
 # Function to create a connection to the SQLite database
 def get_db_connection():
     conn = sqlite3.connect('partners.db')
@@ -69,6 +70,7 @@ def logout():
 # Home route - Displays all partners
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    global aaron
     if 'user' not in session:
         return redirect(url_for('login'))
 
@@ -76,9 +78,11 @@ def index():
     conn = get_db_connection()
 
     search_term = request.args.get('search', '')  # Get the search term from the query string
-
+    aaron = search_term
     if request.method == 'POST':
         search_term = request.form['search']
+        aaron = search_term;
+        
         # Perform the search query as before
 
     # Retrieve partners based on the search term
@@ -102,6 +106,7 @@ def index():
 def search():
     if 'user' not in session:
         return redirect(url_for('login'))
+    
 
     if request.method == 'POST':
         search_term = request.form['search']
@@ -127,7 +132,6 @@ def add():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
-        print(request.form['category'])
         category = request.form['category']
         name = request.form['name']
         description = request.form['description']
@@ -182,7 +186,7 @@ def edit(partner_id):
 
     conn = get_db_connection()
     partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
-    search_term = request.args.get('search', '')
+    search_term = request.args.get('search')
 
     if check_if_user_is_admin() == False:
         return render_template('studentView.html', partner=partner)
@@ -202,17 +206,20 @@ def edit(partner_id):
         phone = request.form['phone']
         website = request.form['website']
 
-        # Update partner details in the database
+        
         conn.execute(
             'UPDATE partners SET category = ?, name = ?, description = ?, size = ?, address = ?, phone = ?, website = ? WHERE id = ?',
             (category, name, description, size, address, phone, website, partner_id)
         )
         conn.commit()
         conn.close()
-        return redirect(url_for('search', search=search_term))
+        return redirect(url_for('search', search=aaron))
+    
+    print("Search Term:", aaron)
+    print("Request URL:", request.url)
 
     conn.close()  # Get the search term from the URL
-    return render_template('edit.html', partner=partner, search_term=search_term)
+    return render_template('edit.html', partner=partner, aaron=aaron)
 
 # Delete all partners route - Deletes all partners from the database
 @app.route('/delete_all', methods=['POST'])
