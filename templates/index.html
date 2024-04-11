@@ -9,10 +9,26 @@
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
+
 </head>
 
+
+
 <body id="body-color">
-    <nav class="bg-gray-100" id="nav-bar">
+    <div class="topnav bg-gray-100" id="nav-bar">
+        <a href="/index"><img width=200px src="/static/Logo2.png"></a>
+        <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
+        <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a>
+        <a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a>
+        <a href="/" id = "nav-logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    </div>
+    <!-- <nav class="bg-gray-100" id="nav-bar">
+        <a href="/index"><img height=50px width=150px src="/static/Logo2.png"></a>
+        <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
+        <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i> Delete All</a>
+        <a href="/undo" id="undoLink"><i class="fas fa-undo"></i> Undo Delete All</a>
+    </nav> -->
+    <!-- <nav class="bg-gray-100" id="nav-bar">
         <ul1 style="padding:0;">
             <li><a href="/index"><img height=50px width=150px src="/static/Logo2.png"></a></li>
             {% if check_if_user_is_admin() %}
@@ -22,9 +38,9 @@
             {% endif %}    
         </ul1>
         <ul2>
-            <li style="padding-top:1000px; float: right;" class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <li style="padding-top:1000px; float: right;" class="logout"><a href="/"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
         </ul2>
-    </nav>
+    </nav> -->
 
 
 

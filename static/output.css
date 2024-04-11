@@ -408,7 +408,45 @@ h1, p {
   background-color: #FF8C00; 
 }
 
-#nav-bar {
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.topnav a:not(:first-child):hover {
+  background-color: #ddd;
+  color: black;
+  padding: 33px 14px;
+  text-decoration: none;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+#nav-logout {
+  float: right;
+}
+
+
+/* #nav-bar {
   overflow: hidden;
   display: flex;
   justify-content: center; 
@@ -444,7 +482,7 @@ h1, p {
 
 #nav-bar ul li.logout a {
   float: right;
-}
+} */
 
 .edit-btn:focus {
   outline: none;
@@ -885,7 +923,7 @@ h1, p {
     }
     
     
-}
+
   .inline-block {
     display: inline-block;
   }

@@ -122,9 +122,10 @@ def search():
     if request.method == 'POST':
         search_term = request.form['search']
         conn = get_db_connection()
+        # Updated query to search by name, address, description, or category
         partners = conn.execute(
-            'SELECT * FROM partners WHERE name LIKE ?',
-            ('%' + search_term + '%',)
+            'SELECT * FROM partners WHERE name LIKE ? OR address LIKE ? OR description LIKE ? OR category LIKE ?',
+            ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
         ).fetchall()
         conn.close()
         return render_template('index.html', partners=partners, user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
