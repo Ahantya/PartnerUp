@@ -28,13 +28,11 @@ def generate_report():
 
     conn.close()
 
-    # Create a CSV string with the partner data
+
     csv_data = "Category,Name,Description,Size,Street,City,Zip,Phone,Website\n"
     for partner in partners:
-        # Unpack the partner data
         category, name, description, size, address, phone, website = partner['category'], partner['name'], partner['description'], partner['size'], partner['address'], partner['phone'], partner['website']
 
-        # Split address into street, city, and zip
         if address:
             address_parts = address.split(', ')
             if len(address_parts) >= 3:
@@ -42,11 +40,9 @@ def generate_report():
             else:
                 street, city, zip_code = address_parts[0], '', ''
 
-        # Format the website URL if needed
         if website and not website.startswith("http://") and not website.startswith("https://"):
             website = "https://" + website
 
-        # Create the CSV row
         csv_data += f"{category},{name},{description},{size},{street},{city},{zip_code},{phone},{website}\n"
 
     # Create a response with the CSV as a file attachment
@@ -99,7 +95,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        # Check if username and password match
+        
         if username in users and users[username] == password:
             session['user'] = username
             return redirect(url_for('index'))
@@ -131,7 +127,6 @@ def index():
         search_term = request.form['search']
         aaron = search_term;
         
-        # Perform the search query as before
 
     # Retrieve partners based on the search term
     partners = conn.execute(
@@ -141,8 +136,9 @@ def index():
 
     conn.close()
 
-    # Pass the search term and partners to the template
-    return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, search_term=search_term)
+    success_message = session.pop('success_message', None)
+
+    return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, search_term=search_term, success_message=success_message)
 
 
 
@@ -167,7 +163,6 @@ def search():
         conn.close()
         return render_template('index.html', partners=partners, user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
     else:
-        # Handle GET request, just render the search template
         return render_template('index.html', user=session['user'], check_if_user_is_admin=check_if_user_is_admin)
 
 
@@ -196,6 +191,8 @@ def add():
             'INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)',
             (category, name, description, size, address, phone, website)
         )
+
+        
         conn.commit()
         conn.close()
         
@@ -225,6 +222,7 @@ def delete(partner_id):
 
     conn.commit()
     conn.close()
+    
 
     return redirect(url_for('index'))
 
