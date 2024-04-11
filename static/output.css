@@ -507,6 +507,7 @@ h1, p {
 
 .title {
   color: grey;
+  font-size: 20px;
 }
 
 .button {
@@ -587,7 +588,7 @@ h1, p {
   
 }
 
-#name {
+#about-name {
   color: #333;
   font-size: 30px;
   
