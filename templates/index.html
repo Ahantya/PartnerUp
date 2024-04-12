@@ -80,7 +80,7 @@
                     <td class="border border-gray-200 px-4 py-2"><a href= "{{partner['Website']}}">{{ partner['Website'] }}</a></td>
                     <td class="border border-gray-200 px-4 py-2">
                         <div class="whoknows" id="yuppers">
-                            <a href="/edit/{{ partner['id'] }}" id="editcustom">More</a>
+                            <a href="/edit/{{ partner['id'] }}" id="editcustom">View/Edit</a>
                             <script>
                                 document.getElementById('redirectButton').addEventListener('click', function () { window.location.href = '/studentview/<int:partner_id>'; });
                             </script>

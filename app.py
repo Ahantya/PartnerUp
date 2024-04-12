@@ -82,8 +82,12 @@ def create_table():
 create_table()
 users = {
     'admin': 'LASAdmin90@',
-    'student': 'LAStudent90@'
+    'student': 'LAStudent90@',
+    'admin2': 'LASAdmin90@',
+    'student2': 'LAStudent90@'
 }
+
+
 @app.route('/about')
 def about():
     return render_template('about.html', check_if_user_is_admin=check_if_user_is_admin)
@@ -155,7 +159,7 @@ def search():
     if request.method == 'POST':
         search_term = request.form['search']
         conn = get_db_connection()
-        # Updated query to search by name, address, description, or category
+       
         partners = conn.execute(
             'SELECT * FROM partners WHERE name LIKE ? OR address LIKE ? OR description LIKE ? OR category LIKE ?',
             ('%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%', '%' + search_term + '%',)
@@ -222,7 +226,7 @@ def delete(partner_id):
 
     conn.commit()
     conn.close()
-    
+
 
     return redirect(url_for('index'))
 
@@ -370,7 +374,11 @@ def process_csv(csv_file):
 
 
 def check_if_user_is_admin():
-    return session['user'] != 'student'
+    user = session.get('user')
+    if user in ['student', 'student2']:
+        return False
+    return True
+
 
 if __name__ == '__main__':
     app.run(debug=True)
