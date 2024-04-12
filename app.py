@@ -34,14 +34,33 @@ def generate_report():
     for partner in partners:
         # Unpack the partner data
         category, name, description, size, address, phone, website = partner['category'], partner['name'], partner['description'], partner['size'], partner['address'], partner['phone'], partner['website']
-
+        name = name.replace(",", "")
+        description = description.replace(",", "")
+        description = description.replace(",", "")
+        description = description.replace(",", "")
+        description = description.replace(",", "")
+        description = description.replace(",", "")
+        description = description.replace(",", "")
         # Split address into street, city, and zip
         if address:
             address_parts = address.split(', ')
             if len(address_parts) >= 3:
                 street, city, zip_code = address_parts[0], address_parts[1], address_parts[2]
+                street = street.replace(",","")
+                street = street.replace(",","")
+                city = city.replace(",","")
+                city = city.replace(",","")
             else:
+                street = street.replace(",","")
+                street = street.replace(",","")
+                street = street.replace(",","")
+                city = city.replace(",","")
+                city = city.replace(",","")
                 street, city, zip_code = address_parts[0], '', ''
+            
+            
+            
+            
 
         # Format the website URL if needed
         if website and not website.startswith("http://") and not website.startswith("https://"):
@@ -133,7 +152,7 @@ def index():
 
     if not check_if_user_is_admin:
         return redirect(url_for('login'))
-    user = session[uname][0]
+    user = uname
     conn = get_db_connection()
 
     search_term = request.args.get('search', '')  # Get the search term from the query string
@@ -151,6 +170,8 @@ def index():
     ).fetchall()
 
     conn.close()
+    
+    success_message = session.pop('success_message', None)
 
     # Pass the search term and partners to the template
     return render_template('index.html', partners=partners, user=user, check_if_user_is_admin=check_if_user_is_admin, search_term=search_term)
@@ -350,6 +371,7 @@ def upload_file():
             traceback.print_exc()
 
     return redirect(url_for('add'))
+
 def process_csv(csv_file):
     # Implement your CSV processing logic here
     # Example: Read the CSV file and add data to the database
