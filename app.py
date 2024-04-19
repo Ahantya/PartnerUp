@@ -119,7 +119,7 @@ def create():
 
         # Add new entry to users dictionary
         users[username] = [password, is_admin]
-    return render_template('create.html')
+    return render_template('create.html', check_if_user_is_admin=check_if_user_is_admin)
 
 @app.route('/about')
 def about():
@@ -404,7 +404,8 @@ def process_csv(csv_file):
 
 
 def check_if_user_is_admin():
-    return session[uname][1] =='yes'
+    return session[uname][1] == 'yes'
+
 
 if __name__ == '__main__':
     app.run(debug=True)
