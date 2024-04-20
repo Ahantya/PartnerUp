@@ -20,9 +20,9 @@
         <a href="/about"><i class="fas fa-info-circle" id="about-logo"></i>About and FAQ</a>
         {% if check_if_user_is_admin() %}
             <a href="/add"><i class="fas fa-plus"></i> Add Partner</a>
-            <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt"></i>Delete All</a>
-            <a href="/undo" id="undoLink"><i class="fas fa-undo"></i>Undo Delete All</a>
-            <a href="/create" id="create"><i class="fas fas fa-pencil-alt"></i>Create New User</a>
+            <a href="#" id="deleteAllLink"><i class="fas fa-trash-alt mr-1"></i>Delete All</a>
+            <a href="/undo" id="undoLink"><i class="fas fa-undo mr-1"></i>Undo Delete All</a>
+            <a href="/create" id="create"><i class="fas fas fa-pencil-alt mr-1"></i>Create New User</a>
         {% endif %}
         <a href="{{ url_for('generate_report', search=search_term) }}"
             id="generateReportButton"><i class="fas fa-download"></i>

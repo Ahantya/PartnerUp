@@ -128,22 +128,19 @@ def about():
 # Login route - Displays login form
 @app.route('/', methods=['GET', 'POST'])
 def login():
-    global uname
     session.clear()
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        is_admin = users[username][1]
-        uname = username
-
-        # Check if username and password match
         if username in users and users[username][0] == password:
-            session[uname] = [password, is_admin]
+            session['username'] = username
+            session['is_admin'] = users[username][1]
             return redirect(url_for('index'))
         
         return render_template('login.html', error='Invalid credentials')
 
     return render_template('login.html')
+
 
 # Home route - Displays all partners
 @app.route('/index', methods=['GET', 'POST'])
@@ -208,7 +205,7 @@ def search():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
-    if not check_if_user_is_admin:
+    if not check_if_user_is_admin():
         return redirect(url_for('login'))
 
     if request.method == 'POST':
@@ -234,7 +231,8 @@ def add():
         return redirect(url_for('index'))
     error_message = session.pop('error_message', None)
 
-    return render_template('add.html', user=session[uname], error_message=error_message)
+    return render_template('add.html', user=session['username'], error_message=error_message)
+
 
 # Delete partner route - Deletes a partner from the database
 @app.route('/delete/<int:partner_id>', methods=['POST'])
@@ -259,16 +257,16 @@ def delete(partner_id):
     conn.close()
 
     return redirect(url_for('index'))
-
 @app.route('/edit/<int:partner_id>', methods=['GET', 'POST'])
 def edit(partner_id):
-    
+    if 'username' not in session:
+        return redirect(url_for('login'))
 
     conn = get_db_connection()
     partner = conn.execute('SELECT * FROM partners WHERE id = ?', (partner_id,)).fetchone()
     search_term = request.args.get('search')
-    print(uname)
-    if session[uname][1] !='yes':
+
+    if session['is_admin'] != 'yes':
         return render_template('studentView.html', partner=partner)
 
     if partner is None:
@@ -296,10 +294,10 @@ def edit(partner_id):
         conn.commit()
         conn.close()
         return redirect(url_for('index'))
-    
 
     conn.close()  # Get the search term from the URL
     return render_template('edit.html', partner=partner, aaron=aaron)
+
 
 # Delete all partners route - Deletes all partners from the database
 @app.route('/delete_all', methods=['POST'])
@@ -404,7 +402,7 @@ def process_csv(csv_file):
 
 
 def check_if_user_is_admin():
-    return session[uname][1] == 'yes'
+    return session.get('is_admin') == 'yes'
 
 
 if __name__ == '__main__':
