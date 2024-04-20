@@ -377,27 +377,28 @@ def upload_file():
     return redirect(url_for('add'))
 
 def process_csv(csv_file):
-    # Implement your CSV processing logic here
-    # Example: Read the CSV file and add data to the database
-    conn = sqlite3.connect('partners.db')
-    c = conn.cursor()
+    # Decode the file content from bytes to string
+    csv_data = csv_file.read().decode("utf-8")
     
-    csv_data = csv_file.stream.read().decode("utf-8")
+    # Create a CSV reader object
     csv_reader = csv.reader(csv_data.splitlines())
 
     # Skip the header row
     next(csv_reader, None)
-    
+
+    conn = get_db_connection()
+    c = conn.cursor()
+
     try:
         for row in csv_reader:
-            # Check if the row contains the expected number of fields (5)
+            # Check if the row contains the expected number of fields (9)
             if len(row) != 9:
                 raise Exception("Invalid row format: Expected 9 fields")
-            
-            category, name, description, size, street, city, zip, phone, website = row
+
+            category, name, description, size, street, city, zip_code, phone, website = row
             if not website.startswith("http://") and not website.startswith("https://") and len(website) > 0:
                 website = "https://" + website
-            address = f"{street}, {city}, {zip}"
+            address = f"{street}, {city}, {zip_code}"
             c.execute("INSERT INTO partners (category, name, description, size, address, phone, website) VALUES (?, ?, ?, ?, ?, ?, ?)", (category, name, description, size, address, phone, website))
     except csv.Error as e:
         # If an error occurs during CSV parsing, raise an exception
