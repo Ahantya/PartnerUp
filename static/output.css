@@ -1183,6 +1183,16 @@ h1, p {
     vertical-align: baseline;
   }
 
+ #successAlert1 {
+  position: fixed;
+  bottom: 10%;
+  left: 56px;
+/* Adjust as needed */
+  transform: translateY(-50%);
+  width: 35.5%;
+}
+
+
   .text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;

@@ -6,6 +6,7 @@
     <title>Add Partner</title>
     <link href="{{ url_for('static', filename='fontawesome-free-6.5.2-web/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='output.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='bootstrap-4.3.1-dist/css/bootstrap.min.css') }}" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <div class="topnav" id="body-color">
@@ -19,7 +20,7 @@
     <div class="add_container mx-auto px-4 py-8 pr-4" >
         <div class="add_section-container">
             <h1 class="text-3xl font-bold mb-5">Create New User</h1>
-            <form action="/create" method="POST" class="max-w-lg bg-white shadow-md rounded px-8 pt-6 pb-8 mb-5">
+            <form action="/create" method="POST" class="max-w-lg bg-white shadow-md rounded px-85 pt-6 pb-8 mb-5">
                 <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="username" required>Username: </label>
                     <input type="text" id="username" name="username" placeholder="Enter Username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
@@ -44,6 +45,12 @@
             </form>
         </div>
     </div>
+
+    {% if success_message %}
+        <div id="successAlert1" class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ success_message }}</strong>
+        </div>
+    {% endif %}
 
     <script src="static/script.js"></script>
 </body>

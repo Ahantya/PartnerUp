@@ -109,7 +109,7 @@ users = {
     'student': ['LAStudent90@', 'no']
 }
 
-@app.route('/create', methods = ['GET','POST'])
+@app.route('/create', methods=['POST', 'GET'])
 def create():
     if request.method == 'POST':
         # Get data from the request
@@ -119,7 +119,13 @@ def create():
 
         # Add new entry to users dictionary
         users[username] = [password, is_admin]
-    return render_template('create.html', check_if_user_is_admin=check_if_user_is_admin)
+        
+        # Set success message
+        session['success_message'] = "New User Added!"
+
+    # Render the template with the success_message passed
+    return render_template('create.html', success_message=session.get('success_message'), check_if_user_is_admin=check_if_user_is_admin)
+
 
 @app.route('/about')
 def about():

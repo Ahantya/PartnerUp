@@ -74,6 +74,12 @@ setTimeout(function() {
     }
 }, 3000); 
 
+setTimeout(function() {
+    var successAlert = document.getElementById('successAlert1');
+    if (successAlert) {
+        successAlert.style.display = 'none';
+    }
+}, 3000); 
 
 setTimeout(function() {
         var errorAlert = document.getElementById('error-alert');
